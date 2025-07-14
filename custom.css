@@ -1,0 +1,122 @@
+/* 修复代码块在亮色模式下的显示问题 - 简洁美观版本 */
+
+/* 全局代码块修复 - 无边框，简洁美观 */
+[data-theme="light"] pre,
+[data-theme="light"] code,
+[data-theme="light"] .code-block,
+[data-theme="light"] .highlight,
+[data-theme="light"] .code-group pre,
+[data-theme="light"] .response-example,
+[data-theme="light"] .json-response,
+[data-theme="light"] .api-playground pre,
+[data-theme="light"] .code-snippet,
+[data-theme="light"] .code-example,
+[data-theme="light"] .api-code,
+[data-theme="light"] .endpoint-code {
+  color: #24292f !important;
+  background-color: #f6f8fa !important;
+  border: none !important;
+  border-radius: 6px !important;
+}
+
+/* pre 标签内的 code 元素 */
+[data-theme="light"] pre code,
+[data-theme="light"] .code-block code,
+[data-theme="light"] .code-group code {
+  color: #24292f !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* 内联代码样式 */
+[data-theme="light"] code:not(pre code) {
+  color: #cf222e !important;
+  background-color: #f6f8fa !important;
+  padding: 0.2em 0.4em !important;
+  border-radius: 3px !important;
+  border: none !important;
+}
+
+/* 强制覆盖所有可能的代码元素 */
+[data-theme="light"] pre,
+[data-theme="light"] pre *:not(.token),
+[data-theme="light"] code:not(.token) {
+  color: #24292f !important;
+}
+
+/* 修复语法高亮在亮色模式下的颜色 - GitHub 风格 */
+[data-theme="light"] .token.comment,
+[data-theme="light"] .token.prolog,
+[data-theme="light"] .token.doctype,
+[data-theme="light"] .token.cdata {
+  color: #6e7781 !important;
+  font-style: italic !important;
+}
+
+[data-theme="light"] .token.punctuation {
+  color: #24292f !important;
+}
+
+[data-theme="light"] .token.property,
+[data-theme="light"] .token.tag,
+[data-theme="light"] .token.boolean,
+[data-theme="light"] .token.number,
+[data-theme="light"] .token.constant,
+[data-theme="light"] .token.symbol,
+[data-theme="light"] .token.deleted {
+  color: #0550ae !important;
+}
+
+[data-theme="light"] .token.selector,
+[data-theme="light"] .token.attr-name,
+[data-theme="light"] .token.string,
+[data-theme="light"] .token.char,
+[data-theme="light"] .token.builtin,
+[data-theme="light"] .token.inserted {
+  color: #0a3069 !important;
+}
+
+[data-theme="light"] .token.operator,
+[data-theme="light"] .token.entity,
+[data-theme="light"] .token.url,
+[data-theme="light"] .language-css .token.string,
+[data-theme="light"] .style .token.string {
+  color: #cf222e !important;
+}
+
+[data-theme="light"] .token.atrule,
+[data-theme="light"] .token.attr-value,
+[data-theme="light"] .token.keyword {
+  color: #cf222e !important;
+  font-weight: bold !important;
+}
+
+[data-theme="light"] .token.function,
+[data-theme="light"] .token.class-name {
+  color: #8250df !important;
+}
+
+[data-theme="light"] .token.regex,
+[data-theme="light"] .token.important,
+[data-theme="light"] .token.variable {
+  color: #0550ae !important;
+}
+
+/* JSON 特殊处理 */
+[data-theme="light"] .language-json .token.property {
+  color: #0550ae !important;
+}
+
+[data-theme="light"] .language-json .token.string {
+  color: #0a3069 !important;
+}
+
+/* 修复 curl 命令的显示 */
+[data-theme="light"] .language-bash .token.function {
+  color: #cf222e !important;
+}
+
+[data-theme="light"] .language-bash .token.string {
+  color: #0a3069 !important;
+}

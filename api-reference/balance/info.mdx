@@ -1,0 +1,137 @@
+---
+title: "余额查询"
+api: "GET https://www.chenyu.team/api/open/v1/balance/info"
+description: "查询账户余额信息"
+---
+
+# 余额查询
+
+查询当前账户的余额信息，包括可用余额、冻结余额等详细信息。
+
+<Info>
+  **在线测试**: 您可以在右侧的API Playground中输入您的API Key，然后点击"Try it"按钮直接测试这个接口。
+</Info>
+
+## 请求参数
+
+无需请求参数。
+
+## 响应参数
+
+<ResponseField name="code" type="integer">
+  响应码
+</ResponseField>
+
+<ResponseField name="msg" type="string">
+  响应信息
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  余额数据
+  
+  <Expandable title="data">
+    <ResponseField name="balance" type="number">
+      可用余额
+    </ResponseField>
+    
+    <ResponseField name="frozen_balance" type="number">
+      冻结余额
+    </ResponseField>
+    
+    <ResponseField name="total_balance" type="number">
+      总余额
+    </ResponseField>
+    
+    <ResponseField name="currency" type="string">
+      货币单位
+    </ResponseField>
+    
+    <ResponseField name="updated_at" type="string">
+      更新时间
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## 代码示例
+
+<CodeGroup>
+
+```python Python
+import requests
+
+url = "https://www.chenyu.team/api/open/v1/balance/info"
+headers = {
+    "Authorization": "Bearer your_api_key"
+}
+
+response = requests.get(url, headers=headers)
+result = response.json()
+
+if result['code'] == 0:
+    balance_info = result['data']
+    print(f"可用余额: {balance_info['balance']} {balance_info['currency']}")
+    print(f"冻结余额: {balance_info['frozen_balance']} {balance_info['currency']}")
+    print(f"总余额: {balance_info['total_balance']} {balance_info['currency']}")
+else:
+    print(f"查询失败: {result['msg']}")
+```
+
+```javascript JavaScript
+const axios = require('axios');
+
+const url = 'https://www.chenyu.team/api/open/v1/balance/info';
+const headers = {
+    'Authorization': 'Bearer your_api_key'
+};
+
+axios.get(url, { headers })
+    .then(response => {
+        const result = response.data;
+        
+        if (result.code === 0) {
+            const balanceInfo = result.data;
+            console.log(`可用余额: ${balanceInfo.balance} ${balanceInfo.currency}`);
+            console.log(`冻结余额: ${balanceInfo.frozen_balance} ${balanceInfo.currency}`);
+            console.log(`总余额: ${balanceInfo.total_balance} ${balanceInfo.currency}`);
+        } else {
+            console.log(`查询失败: ${result.msg}`);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error.response.data);
+    });
+```
+
+```curl cURL
+curl -X GET "https://www.chenyu.team/api/open/v1/balance/info" \
+  -H "Authorization: Bearer your_api_key"
+```
+
+</CodeGroup>
+
+## 响应示例
+
+<CodeGroup>
+
+```json 成功响应
+{
+  "code": 0,
+  "msg": "查询成功",
+  "data": {
+    "balance": 1250.50,
+    "frozen_balance": 50.00,
+    "total_balance": 1300.50,
+    "currency": "CNY",
+    "updated_at": "2024-01-15 14:30:25"
+  }
+}
+```
+
+```json 失败响应
+{
+  "code": -1,
+  "msg": "查询失败"
+}
+```
+
+</CodeGroup>

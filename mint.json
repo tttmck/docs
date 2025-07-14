@@ -1,0 +1,154 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "晨羽智云企业功能文档",
+
+  "favicon": "/favicon.svg",
+  "stylesheets": [
+    "/custom.css"
+  ],
+  "scripts": [
+    "/fix-code-theme.js"
+  ],
+  "colors": {
+    "primary": "#7C3AED",
+    "light": "#A855F7",
+    "dark": "#5B21B6"
+  },
+  "topbarLinks": [
+    {
+      "name": "支持",
+      "url": "mailto:support@chenyu.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "开始使用",
+    "url": "https://www.chenyu.cn/console/apiServer"
+  },
+  "api": {
+    "auth": {
+      "method": "bearer",
+      "name": "Authorization"
+    },
+    "playground": {
+      "mode": "show"
+    }
+  },
+  "tabs": [
+    {
+      "name": "使用指南",
+      "url": "userguide"
+    },
+    {
+      "name": "弹性部署",
+      "url": "elastic-deployment"
+    },
+    {
+      "name": "API 参考",
+      "url": "api-reference"
+    }
+  ],
+
+
+  "navigation": [
+    {
+      "group": "快速开始",
+      "pages": [
+        "userguide/introduction",
+        "userguide/quickstart",
+        "userguide/authentication"
+      ]
+    },
+    {
+      "group": "弹性部署概述",
+      "pages": [
+        "elastic-deployment/introduction",
+        "elastic-deployment/concepts",
+        "elastic-deployment/architecture"
+      ]
+    },
+    {
+      "group": "部署配置",
+      "pages": [
+        "elastic-deployment/configuration",
+        "elastic-deployment/scaling-policies",
+        "elastic-deployment/monitoring"
+      ]
+    },
+    {
+      "group": "最佳实践",
+      "pages": [
+        "elastic-deployment/best-practices",
+        "elastic-deployment/troubleshooting",
+        "elastic-deployment/faq"
+      ]
+    },
+    {
+      "group": "API 介绍",
+      "pages": [
+        "api-reference/introduction"
+      ]
+    },
+    {
+      "group": "Pod管理",
+      "pages": [
+        "api-reference/pod/list"
+      ]
+    },
+    {
+      "group": "镜像管理",
+      "pages": [
+        "api-reference/image/market-list",
+        "api-reference/image/private-list",
+        "api-reference/image/private-delete"
+      ]
+    },
+    {
+      "group": "实例管理",
+      "pages": [
+        "api-reference/instance/list",
+        "api-reference/instance/create-by-pod",
+        "api-reference/instance/create-by-image",
+        "api-reference/instance/startup",
+        "api-reference/instance/shutdown",
+        "api-reference/instance/restart",
+        "api-reference/instance/set-shutdown-timer",
+        "api-reference/instance/destroy",
+        "api-reference/instance/save-image"
+      ]
+    },
+    {
+      "group": "余额管理",
+      "pages": [
+        "api-reference/balance/info"
+      ]
+    },
+    {
+      "group": "充值管理",
+      "pages": [
+        "api-reference/recharge/list"
+      ]
+    },
+    {
+      "group": "账单管理",
+      "pages": [
+        "api-reference/bill/list"
+      ]
+    },
+    {
+      "group": "算力卡管理",
+      "pages": [
+        "api-reference/card/list"
+      ]
+    },
+    {
+      "group": "GPU管理",
+      "pages": [
+        "api-reference/gpu/list"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/chenyu-ai",
+    "linkedin": "https://www.linkedin.com/company/chenyu-ai"
+  }
+}

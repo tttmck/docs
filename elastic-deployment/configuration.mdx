@@ -1,0 +1,503 @@
+---
+title: "配置弹性部署"
+description: "学习如何配置和管理弹性部署策略"
+---
+
+# 配置弹性部署
+
+本文档将指导您完成弹性部署的配置过程，包括基础设置、扩缩策略和监控配置。
+
+## 创建弹性实例
+
+### 通过控制台创建
+
+1. 登录晨羽智云控制台
+2. 导航到 **实例管理** > **创建实例**
+3. 选择 **弹性部署** 选项
+4. 配置基础参数：
+
+<Steps>
+  <Step title="基础配置">
+    - **实例名称**：为实例指定一个描述性名称
+    - **地域选择**：选择合适的地域和可用区
+    - **镜像选择**：选择预安装的应用镜像
+  </Step>
+  <Step title="规格配置">
+    - **初始规格**：设置实例的初始资源配置
+    - **最小规格**：设置实例的最小资源限制
+    - **最大规格**：设置实例的最大资源限制
+  </Step>
+  <Step title="网络配置">
+    - **VPC选择**：选择虚拟私有云
+    - **子网选择**：选择子网
+    - **安全组**：配置安全组规则
+  </Step>
+  <Step title="扩缩配置">
+    - **扩缩模式**：选择水平扩缩或垂直扩缩
+    - **触发条件**：设置扩缩触发条件
+    - **扩缩策略**：配置扩缩策略参数
+  </Step>
+</Steps>
+
+### 通过 API 创建
+
+```bash
+curl -X POST https://api.chenyu.cn/v1/instances \
+  -H "Authorization: Bearer $API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "my-elastic-instance",
+    "region": "cn-beijing",
+    "zone": "cn-beijing-1a",
+    "image_id": "img-ubuntu2004",
+    "instance_type": "elastic",
+    "initial_spec": {
+      "cpu": 2,
+      "memory": 4,
+      "disk": 40
+    },
+    "scaling_config": {
+      "min_spec": {
+        "cpu": 1,
+        "memory": 2,
+        "disk": 20
+      },
+      "max_spec": {
+        "cpu": 8,
+        "memory": 16,
+        "disk": 100
+      },
+      "scaling_mode": "vertical"
+    }
+  }'
+```
+
+## 配置扩缩策略
+
+### 基于阈值的扩缩
+
+配置基于系统指标阈值的自动扩缩：
+
+```json
+{
+  "scaling_policies": [
+    {
+      "name": "cpu-based-scaling",
+      "type": "threshold",
+      "metrics": [
+        {
+          "name": "cpu_utilization",
+          "comparison": "greater_than",
+          "threshold": 80,
+          "period": 300,
+          "evaluation_periods": 2
+        }
+      ],
+      "scaling_actions": [
+        {
+          "type": "scale_up",
+          "adjustment_type": "change_in_capacity",
+          "adjustment_value": 1,
+          "cooldown": 300
+        }
+      ]
+    },
+    {
+      "name": "cpu-scale-down",
+      "type": "threshold",
+      "metrics": [
+        {
+          "name": "cpu_utilization",
+          "comparison": "less_than",
+          "threshold": 30,
+          "period": 300,
+          "evaluation_periods": 3
+        }
+      ],
+      "scaling_actions": [
+        {
+          "type": "scale_down",
+          "adjustment_type": "change_in_capacity",
+          "adjustment_value": -1,
+          "cooldown": 600
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 基于时间的扩缩
+
+配置基于时间的预测性扩缩：
+
+```json
+{
+  "scheduled_scaling": [
+    {
+      "name": "business-hours-scale-up",
+      "schedule": "0 8 * * MON-FRI",
+      "timezone": "Asia/Shanghai",
+      "scaling_action": {
+        "type": "set_desired_capacity",
+        "target_spec": {
+          "cpu": 4,
+          "memory": 8
+        }
+      }
+    },
+    {
+      "name": "off-hours-scale-down",
+      "schedule": "0 22 * * MON-FRI",
+      "timezone": "Asia/Shanghai",
+      "scaling_action": {
+        "type": "set_desired_capacity",
+        "target_spec": {
+          "cpu": 2,
+          "memory": 4
+        }
+      }
+    }
+  ]
+}
+```
+
+### 基于预测的扩缩
+
+利用机器学习预测负载变化：
+
+```json
+{
+  "predictive_scaling": {
+    "enabled": true,
+    "prediction_horizon": 3600,
+    "scaling_buffer": 0.1,
+    "features": [
+      "historical_cpu_usage",
+      "historical_memory_usage",
+      "historical_request_count",
+      "time_of_day",
+      "day_of_week"
+    ],
+    "model_type": "lstm",
+    "training_data_period": 30
+  }
+}
+```
+
+## 监控配置
+
+### 系统监控指标
+
+配置系统级别的监控指标：
+
+<Tabs>
+  <Tab title="CPU 监控">
+    ```json
+    {
+      "metrics": [
+        {
+          "name": "cpu_utilization",
+          "source": "system",
+          "collection_interval": 60,
+          "aggregation": "average",
+          "retention_period": 30
+        },
+        {
+          "name": "cpu_load_average",
+          "source": "system",
+          "collection_interval": 60,
+          "aggregation": "average",
+          "retention_period": 30
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="内存监控">
+    ```json
+    {
+      "metrics": [
+        {
+          "name": "memory_utilization",
+          "source": "system",
+          "collection_interval": 60,
+          "aggregation": "average",
+          "retention_period": 30
+        },
+        {
+          "name": "memory_available",
+          "source": "system",
+          "collection_interval": 60,
+          "aggregation": "average",
+          "retention_period": 30
+        }
+      ]
+    }
+    ```
+  </Tab>
+  <Tab title="磁盘监控">
+    ```json
+    {
+      "metrics": [
+        {
+          "name": "disk_utilization",
+          "source": "system",
+          "collection_interval": 300,
+          "aggregation": "average",
+          "retention_period": 30
+        },
+        {
+          "name": "disk_iops",
+          "source": "system",
+          "collection_interval": 60,
+          "aggregation": "sum",
+          "retention_period": 30
+        }
+      ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### 应用监控指标
+
+配置应用程序特定的监控指标：
+
+```json
+{
+  "application_metrics": [
+    {
+      "name": "request_rate",
+      "source": "application",
+      "endpoint": "/metrics",
+      "collection_interval": 30,
+      "aggregation": "rate",
+      "retention_period": 30
+    },
+    {
+      "name": "response_time",
+      "source": "application",
+      "endpoint": "/metrics",
+      "collection_interval": 30,
+      "aggregation": "percentile",
+      "percentile": 95,
+      "retention_period": 30
+    },
+    {
+      "name": "error_rate",
+      "source": "application",
+      "endpoint": "/metrics",
+      "collection_interval": 30,
+      "aggregation": "rate",
+      "retention_period": 30
+    }
+  ]
+}
+```
+
+## 告警配置
+
+### 告警规则
+
+配置告警规则和通知：
+
+```json
+{
+  "alert_rules": [
+    {
+      "name": "high-cpu-usage",
+      "condition": "cpu_utilization > 90",
+      "duration": "5m",
+      "severity": "critical",
+      "description": "CPU 使用率过高",
+      "notifications": [
+        {
+          "type": "email",
+          "recipients": ["admin@example.com"],
+          "template": "high_cpu_alert"
+        },
+        {
+          "type": "webhook",
+          "url": "https://hooks.slack.com/services/...",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "name": "scaling-failure",
+      "condition": "scaling_operation_failed == true",
+      "duration": "1m",
+      "severity": "warning",
+      "description": "扩缩操作失败",
+      "notifications": [
+        {
+          "type": "sms",
+          "recipients": ["+86138xxxxxxxx"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 告警通知渠道
+
+<CardGroup cols={2}>
+  <Card
+    title="邮件通知"
+    icon="envelope"
+  >
+    支持 HTML 格式的邮件通知，可自定义邮件模板
+  </Card>
+  <Card
+    title="短信通知"
+    icon="mobile"
+  >
+    支持国内外短信通知，紧急告警首选
+  </Card>
+  <Card
+    title="Webhook"
+    icon="webhook"
+  >
+    支持 HTTP POST 请求，可集成第三方系统
+  </Card>
+  <Card
+    title="企业微信/钉钉"
+    icon="comments"
+  >
+    支持企业即时通讯工具集成
+  </Card>
+</CardGroup>
+
+## 高级配置
+
+### 自定义指标
+
+配置自定义应用程序指标：
+
+```python
+# Python 示例：发送自定义指标
+import requests
+import json
+
+def send_custom_metric(metric_name, value, timestamp=None):
+    """发送自定义指标到晨羽智云"""
+    
+    data = {
+        "metric_name": metric_name,
+        "value": value,
+        "timestamp": timestamp or int(time.time()),
+        "tags": {
+            "instance_id": "ins-xxxxxxxx",
+            "application": "my-app"
+        }
+    }
+    
+    response = requests.post(
+        "https://api.chenyu.cn/v1/metrics",
+        headers={
+            "Authorization": f"Bearer {API_TOKEN}",
+            "Content-Type": "application/json"
+        },
+        data=json.dumps(data)
+    )
+    
+    return response.status_code == 200
+
+# 使用示例
+send_custom_metric("active_users", 1250)
+send_custom_metric("order_count", 89)
+```
+
+### 扩缩策略组合
+
+配置多个扩缩策略的组合：
+
+```json
+{
+  "scaling_strategy": {
+    "type": "composite",
+    "strategies": [
+      {
+        "name": "cpu_memory_scaling",
+        "type": "threshold",
+        "weight": 0.6,
+        "metrics": ["cpu_utilization", "memory_utilization"],
+        "operator": "or"
+      },
+      {
+        "name": "predictive_scaling",
+        "type": "predictive",
+        "weight": 0.3,
+        "enabled": true
+      },
+      {
+        "name": "scheduled_scaling",
+        "type": "scheduled",
+        "weight": 0.1,
+        "enabled": true
+      }
+    ],
+    "decision_algorithm": "weighted_average"
+  }
+}
+```
+
+## 配置验证
+
+### 配置语法检查
+
+使用 CLI 工具验证配置：
+
+```bash
+# 验证扩缩策略配置
+chenyu-cli config validate --file scaling-policy.json
+
+# 验证监控配置
+chenyu-cli config validate --file monitoring-config.json
+
+# 验证告警配置
+chenyu-cli config validate --file alert-config.json
+```
+
+### 配置测试
+
+测试配置的有效性：
+
+```bash
+# 测试扩缩策略
+chenyu-cli scaling test-policy --instance-id ins-xxxxxxxx --simulate
+
+# 测试告警规则
+chenyu-cli alert test-rule --rule-name high-cpu-usage --mock-data cpu_utilization:95
+
+# 测试监控指标收集
+chenyu-cli metrics test-collection --instance-id ins-xxxxxxxx
+```
+
+## 最佳实践
+
+<Warning>
+在生产环境中部署前，请务必在测试环境中验证所有配置。
+</Warning>
+
+### 配置建议
+
+1. **逐步调整**：从保守的配置开始，逐步优化
+2. **监控优先**：确保监控配置正确后再启用扩缩
+3. **告警覆盖**：为关键指标设置多级告警
+4. **文档记录**：记录配置变更和原因
+
+### 常见错误避免
+
+- **阈值设置过于敏感**：可能导致频繁扩缩
+- **冷却期过短**：可能导致资源浪费
+- **缺少最大限制**：可能导致成本失控
+- **监控指标不足**：可能导致扩缩决策错误
+
+## 下一步
+
+- [了解扩缩策略](/elastic-deployment/scaling-policies)
+- [配置监控和告警](/elastic-deployment/monitoring)
+- [查看故障排除指南](/elastic-deployment/troubleshooting) 
