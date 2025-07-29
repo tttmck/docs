@@ -2,6 +2,7 @@
 title: "查询算力市场镜像"
 api: "GET https://www.chenyu.team/api/open/v2/image/market/list"
 description: "查询算力市场中可用的镜像列表"
+authMethod: "none"
 ---
 
 # 查询算力市场镜像
@@ -10,7 +11,21 @@ description: "查询算力市场中可用的镜像列表"
 
 ## 请求参数
 
-此接口不需要任何请求参数。
+<ParamField query="page" type="integer">
+  页码，从1开始
+</ParamField>
+
+<ParamField query="page_size" type="integer">
+  每页数量
+</ParamField>
+
+<ParamField query="cuda_version" type="string">
+  CUDA版本，如：11.8、12.0等
+</ParamField>
+
+<ParamField query="python_version" type="string">
+  Python版本，如：3.8、3.9、3.10等
+</ParamField>
 
 ## 响应参数
 
@@ -24,24 +39,70 @@ description: "查询算力市场中可用的镜像列表"
 
 <ResponseField name="data" type="object">
   返回数据
-  
+
   <Expandable title="data">
     <ResponseField name="image_list" type="array">
       镜像列表
-      
+
       <Expandable title="image_list">
-        <ResponseField name="title" type="string">
-          镜像名称
-        </ResponseField>
-        
         <ResponseField name="uuid" type="string">
-          镜像uuid
+          镜像UUID
         </ResponseField>
-        
-        <ResponseField name="size" type="number">
-          镜像大小 GB
+
+        <ResponseField name="components" type="object">
+          组件版本信息
+
+          <Expandable title="components">
+            <ResponseField name="CUDA" type="string">
+              CUDA版本
+            </ResponseField>
+
+            <ResponseField name="PaddlePaddle" type="string">
+              PaddlePaddle版本
+            </ResponseField>
+
+            <ResponseField name="PyTorch" type="string">
+              PyTorch版本
+            </ResponseField>
+
+            <ResponseField name="Python" type="string">
+              Python版本
+            </ResponseField>
+
+            <ResponseField name="TensorFlow" type="string">
+              TensorFlow版本
+            </ResponseField>
+
+            <ResponseField name="Ubuntu" type="string">
+              Ubuntu版本
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
+        <ResponseField name="size" type="integer">
+          镜像大小（字节）
+        </ResponseField>
+
+        <ResponseField name="created_at" type="integer">
+          创建时间戳
+        </ResponseField>
+
+        <ResponseField name="updated_at" type="integer">
+          更新时间戳
         </ResponseField>
       </Expandable>
+    </ResponseField>
+
+    <ResponseField name="total" type="integer">
+      总记录数
+    </ResponseField>
+
+    <ResponseField name="page" type="integer">
+      当前页码
+    </ResponseField>
+
+    <ResponseField name="page_size" type="integer">
+      每页数量
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -59,14 +120,25 @@ headers = {
     "Content-Type": "application/json"
 }
 
-response = requests.get(url, headers=headers)
+params = {
+    "page": 1,
+    "page_size": 20,
+    "cuda_version": "11.8",
+    "python_version": "3.9"
+}
+
+response = requests.get(url, headers=headers, params=params)
 result = response.json()
 
 print("算力市场镜像列表:")
+print(f"总数: {result['data']['total']}, 当前页: {result['data']['page']}")
 for image in result['data']['image_list']:
-    print(f"镜像名称: {image['title']}")
-    print(f"镜像大小: {image['size']} GB")
     print(f"UUID: {image['uuid']}")
+    print(f"CUDA版本: {image['components']['CUDA']}")
+    print(f"Python版本: {image['components']['Python']}")
+    print(f"PyTorch版本: {image['components']['PyTorch']}")
+    print(f"TensorFlow版本: {image['components']['TensorFlow']}")
+    print(f"镜像大小: {image['size']} 字节")
     print("---")
 ```
 
@@ -79,15 +151,26 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-axios.get(url, { headers })
+const params = {
+    page: 1,
+    page_size: 20,
+    cuda_version: '11.8',
+    python_version: '3.9'
+};
+
+axios.get(url, { headers, params })
     .then(response => {
         const data = response.data.data;
         console.log('算力市场镜像列表:');
-        
+        console.log(`总数: ${data.total}, 当前页: ${data.page}`);
+
         data.image_list.forEach(image => {
-            console.log(`镜像名称: ${image.title}`);
-            console.log(`镜像大小: ${image.size} GB`);
             console.log(`UUID: ${image.uuid}`);
+            console.log(`CUDA版本: ${image.components.CUDA}`);
+            console.log(`Python版本: ${image.components.Python}`);
+            console.log(`PyTorch版本: ${image.components.PyTorch}`);
+            console.log(`TensorFlow版本: ${image.components.TensorFlow}`);
+            console.log(`镜像大小: ${image.size} 字节`);
             console.log('---');
         });
     })
@@ -97,7 +180,7 @@ axios.get(url, { headers })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v2/image/market/list" \
+curl -X GET "https://www.chenyu.team/api/open/v2/image/market/list?page=1&page_size=20&cuda_version=11.8&python_version=3.9" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json"
 ```
@@ -109,20 +192,27 @@ curl -X GET "https://www.chenyu.team/api/open/v2/image/market/list" \
 ```json
 {
   "code": 0,
-  "msg": "success",
+  "msg": "查询成功",
   "data": {
     "image_list": [
       {
-        "title": "Ubuntu 20.04 + CUDA 11.8",
-        "uuid": "img_12345678-1234-1234-1234-123456789012",
-        "size": 15.5
-      },
-      {
-        "title": "PyTorch 2.0 + Jupyter",
-        "uuid": "img_87654321-4321-4321-4321-210987654321",
-        "size": 8.2
+        "uuid": "ceb70da2df074c9e99905b6a4f4db032",
+        "components": {
+          "CUDA": "11.8.0",
+          "PaddlePaddle": "2.5.2",
+          "PyTorch": "2.1.2",
+          "Python": "3.10",
+          "TensorFlow": "2.16.2",
+          "Ubuntu": "22.04"
+        },
+        "size": 19372840210,
+        "created_at": 1743213028,
+        "updated_at": 1743215603
       }
-    ]
+    ],
+    "total": 84,
+    "page": 1,
+    "page_size": 1
   }
 }
 ```
