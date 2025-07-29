@@ -40,6 +40,11 @@ description: "查询用户的实例列表"
         
         <ResponseField name="status" type="integer">
           实例状态
+          - `2`: 运行中
+          - `21`: 关机中
+          - `22`: 已关机
+          - `24`: 开机中
+          - `27`: 重启中
         </ResponseField>
         
         <ResponseField name="title" type="string">
