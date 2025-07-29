@@ -890,10 +890,20 @@
                   "instance_uuid": {
                     "type": "string",
                     "description": "实例uuid"
+                  },
+                  "gpu_uuid": {
+                    "type": "string",
+                    "description": "gpu型号id"
+                  },
+                  "gpu_nums": {
+                    "type": "integer",
+                    "description": "gpu数量  支持1/2/4/8"
                   }
                 },
                 "required": [
-                  "instance_uuid"
+                  "instance_uuid",
+                  "gpu_uuid",
+                  "gpu_nums"
                 ]
               },
               "examples": {}
@@ -1061,11 +1071,16 @@
                   "shutdown_time": {
                     "type": "integer",
                     "description": "实例定时关机时间，秒级时间戳"
+                  },
+                  "instance_uuid": {
+                    "type": "string",
+                    "description": "实例uuid"
                   }
                 },
                 "required": [
                   "enable",
-                  "shutdown_time"
+                  "shutdown_time",
+                  "instance_uuid"
                 ]
               },
               "examples": {}
@@ -1295,7 +1310,7 @@
             }
           },
           {
-            "name": "order_number",
+            "name": "trade_number",
             "in": "query",
             "description": "订单号",
             "required": false,
@@ -1405,15 +1420,6 @@
             }
           },
           {
-            "name": "order_type",
-            "in": "query",
-            "description": "扣费类型 \n1.赠送金额\n3.充值购买\n4.消费费用\n5.手动扣减\n9.实例算力消费费用\n10.返还费用\n11.pod镜像使用费\n12.镜像存储费用\n13.云存储费用",
-            "required": false,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
             "name": "order_channel",
             "in": "query",
             "description": "扣费渠道\n1.余额消费\n2.算力卡消费",
@@ -1462,11 +1468,7 @@
                               },
                               "charge_channel": {
                                 "type": "integer",
-                                "description": "扣费渠道 余额/算力卡"
-                              },
-                              "charge_type": {
-                                "type": "integer",
-                                "description": "扣费类型 实例/存储/镜像"
+                                "description": "扣费渠道 1.余额 2.算力卡"
                               },
                               "order_number": {
                                 "type": "string",
@@ -1476,6 +1478,14 @@
                                 "type": "integer",
                                 "description": "订单发生时间，秒级时间戳"
                               },
+                              "settle_start_time": {
+                                "type": "integer",
+                                "description": "计费开始时间，秒级时间戳"
+                              },
+                              "settle_end_time": {
+                                "type": "integer",
+                                "description": "计费结束时间，秒级时间戳"
+                              },
                               "remark": {
                                 "type": "string",
                                 "description": "备注"
@@ -1484,10 +1494,11 @@
                             "required": [
                               "amount",
                               "charge_channel",
-                              "charge_type",
                               "order_number",
                               "order_time",
-                              "remark"
+                              "remark",
+                              "settle_start_time",
+                              "settle_end_time"
                             ]
                           },
                           "description": "消费流水记录"
@@ -1567,11 +1578,7 @@
                           "items": {
                             "type": "object",
                             "properties": {
-                              "trade_number": {
-                                "type": "string",
-                                "description": "订单编号"
-                              },
-                              "balance": {
+                              "leave_amount": {
                                 "type": "number",
                                 "description": "余额"
                               },
@@ -1579,19 +1586,76 @@
                                 "type": "number",
                                 "description": "面值"
                               },
-                              "trace_time": {
+                              "sale_price": {
+                                "type": "number",
+                                "description": "售价"
+                              },
+                              "bind_time": {
                                 "type": "integer",
-                                "description": "订单发生时间，秒级时间戳"
+                                "description": "绑定时间，秒级时间戳"
+                              },
+                              "expire_date": {
+                                "type": "integer",
+                                "description": "过期时间，秒级时间戳"
+                              },
+                              "bind_txt": {
+                                "type": "string",
+                                "description": "绑定信息"
+                              },
+                              "card_no": {
+                                "type": "string",
+                                "description": "卡号"
+                              },
+                              "pods": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "uuid": {
+                                      "type": "string"
+                                    },
+                                    "title": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "uuid",
+                                    "title"
+                                  ]
+                                },
+                                "description": "算力卡支持扣费的pod，为空则支持所有pod"
+                              },
+                              "status_txt": {
+                                "type": "string",
+                                "description": "状态信息"
+                              },
+                              "title": {
+                                "type": "string",
+                                "description": "算力卡名称"
+                              },
+                              "uuid": {
+                                "type": "string",
+                                "description": "算力卡uuid"
+                              },
+                              "valid_days": {
+                                "type": "integer",
+                                "description": "算力卡有效期"
                               }
                             },
                             "required": [
-                              "trade_number",
                               "face_amount",
-                              "balance",
-                              "trace_time"
+                              "leave_amount",
+                              "bind_time",
+                              "bind_txt",
+                              "card_no",
+                              "expire_date",
+                              "status_txt",
+                              "title",
+                              "uuid",
+                              "valid_days",
+                              "sale_price"
                             ]
-                          },
-                          "description": "订单编号"
+                          }
                         },
                         "total": {
                           "type": "integer",

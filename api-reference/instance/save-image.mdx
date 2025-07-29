@@ -1,6 +1,6 @@
 ---
 title: "保存为镜像"
-api: "POST https://www.chenyu.team/api/open/v1/instance/save_image"
+api: "POST https://www.chenyu.team/api/open/v1/instance/save-image"
 description: "将实例保存为私有镜像"
 ---
 
@@ -11,15 +11,7 @@ description: "将实例保存为私有镜像"
 ## 请求参数
 
 <ParamField body="instance_uuid" type="string" required>
-  要保存为镜像的实例uuid
-</ParamField>
-
-<ParamField body="image_name" type="string" required>
-  镜像名称
-</ParamField>
-
-<ParamField body="remark" type="string">
-  镜像备注说明
+  实例uuid
 </ParamField>
 
 ## 响应参数
@@ -39,7 +31,7 @@ description: "将实例保存为私有镜像"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/instance/save_image"
+url = "https://www.chenyu.team/api/open/v1/instance/save-image"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -63,7 +55,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/instance/save_image';
+const url = 'https://www.chenyu.team/api/open/v1/instance/save-image';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -91,7 +83,7 @@ axios.post(url, data, { headers })
 ```
 
 ```curl cURL
-curl -X POST "https://www.chenyu.team/api/open/v1/instance/save_image" \
+curl -X POST "https://www.chenyu.team/api/open/v1/instance/save-image" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json" \
   -d '{

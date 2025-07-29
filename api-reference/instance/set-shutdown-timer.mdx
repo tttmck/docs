@@ -1,6 +1,6 @@
 ---
 title: "设置定时关机"
-api: "POST https://www.chenyu.team/api/open/v1/instance/set_shutdown_timer"
+api: "POST https://www.chenyu.team/api/open/v1/instance/shutdown-timer"
 description: "为实例设置定时关机"
 ---
 
@@ -10,12 +10,16 @@ description: "为实例设置定时关机"
 
 ## 请求参数
 
-<ParamField body="instance_uuid" type="string" required>
-  要设置定时关机的实例uuid
+<ParamField body="enable" type="boolean" required>
+  true: 启用实例定时关机 false:关闭实例定时关机
 </ParamField>
 
 <ParamField body="shutdown_time" type="integer" required>
-  定时关机时间（分钟），设置为0表示取消定时关机
+  实例定时关机时间，秒级时间戳
+</ParamField>
+
+<ParamField body="instance_uuid" type="string" required>
+  实例uuid
 </ParamField>
 
 ## 响应参数
@@ -35,7 +39,7 @@ description: "为实例设置定时关机"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/instance/set_shutdown_timer"
+url = "https://www.chenyu.team/api/open/v1/instance/shutdown-timer"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -59,7 +63,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/instance/set_shutdown_timer';
+const url = 'https://www.chenyu.team/api/open/v1/instance/shutdown-timer';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -87,7 +91,7 @@ axios.post(url, data, { headers })
 ```
 
 ```curl cURL
-curl -X POST "https://www.chenyu.team/api/open/v1/instance/set_shutdown_timer" \
+curl -X POST "https://www.chenyu.team/api/open/v1/instance/shutdown-timer" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json" \
   -d '{

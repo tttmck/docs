@@ -27,41 +27,41 @@ description: "获取平台可用的GPU型号列表及价格信息"
   
   <Expandable title="data">
     <ResponseField name="gpu_list" type="array">
-      GPU列表
-      
+      平台gpu列表
+
       <Expandable title="gpu_list">
         <ResponseField name="gpu_name" type="string">
-          GPU名称
+          gpu名称
         </ResponseField>
-        
+
         <ResponseField name="gpu_uuid" type="string">
-          GPU uuid
+          gpu唯一id
         </ResponseField>
-        
-        <ResponseField name="status" type="string">
-          GPU状态
+
+        <ResponseField name="status" type="integer">
+          状态
         </ResponseField>
-        
+
         <ResponseField name="price" type="object">
-          价格信息
-          
+          价格
+
           <Expandable title="price">
-            <ResponseField name="hour" type="number">
+            <ResponseField name="hour" type="number" required>
               按小时定价
             </ResponseField>
-            
+
             <ResponseField name="day" type="number">
               按天定价
             </ResponseField>
-            
+
             <ResponseField name="week" type="number">
               按周定价
             </ResponseField>
-            
+
             <ResponseField name="month" type="number">
               按月定价
             </ResponseField>
-            
+
             <ResponseField name="year" type="number">
               按年定价
             </ResponseField>
@@ -94,14 +94,16 @@ result = response.json()
 if result['code'] == 0:
     gpu_data = result['data']
     print(f"总GPU型号数: {gpu_data['total']}")
-    
+
     for gpu in gpu_data['gpu_list']:
         print(f"GPU名称: {gpu['gpu_name']}")
         print(f"GPU UUID: {gpu['gpu_uuid']}")
         print(f"状态: {gpu['status']}")
         print(f"小时价格: {gpu['price']['hour']}")
-        print(f"天价格: {gpu['price']['day']}")
-        print(f"月价格: {gpu['price']['month']}")
+        if 'day' in gpu['price']:
+            print(f"天价格: {gpu['price']['day']}")
+        if 'month' in gpu['price']:
+            print(f"月价格: {gpu['price']['month']}")
         print("---")
 else:
     print(f"查询失败: {result['msg']}")
@@ -122,14 +124,18 @@ axios.get(url, { headers })
         if (result.code === 0) {
             const gpuData = result.data;
             console.log(`总GPU型号数: ${gpuData.total}`);
-            
+
             gpuData.gpu_list.forEach(gpu => {
                 console.log(`GPU名称: ${gpu.gpu_name}`);
                 console.log(`GPU UUID: ${gpu.gpu_uuid}`);
                 console.log(`状态: ${gpu.status}`);
                 console.log(`小时价格: ${gpu.price.hour}`);
-                console.log(`天价格: ${gpu.price.day}`);
-                console.log(`月价格: ${gpu.price.month}`);
+                if (gpu.price.day) {
+                    console.log(`天价格: ${gpu.price.day}`);
+                }
+                if (gpu.price.month) {
+                    console.log(`月价格: ${gpu.price.month}`);
+                }
                 console.log('---');
             });
         } else {
@@ -161,7 +167,7 @@ curl -X GET "https://www.chenyu.team/api/open/v1/gpu/list" \
       {
         "gpu_name": "NVIDIA RTX 4090",
         "gpu_uuid": "gpu_12345678-1234-1234-1234-123456789012",
-        "status": "available",
+        "status": 1,
         "price": {
           "hour": 5.50,
           "day": 120.00,
@@ -171,15 +177,15 @@ curl -X GET "https://www.chenyu.team/api/open/v1/gpu/list" \
         }
       },
       {
-        "gpu_name": "NVIDIA A100",
+        "gpu_name": "NVIDIA RTX 3080",
         "gpu_uuid": "gpu_87654321-4321-4321-4321-210987654321",
-        "status": "available",
+        "status": 1,
         "price": {
-          "hour": 8.00,
-          "day": 180.00,
-          "week": 1200.00,
-          "month": 4800.00,
-          "year": 52000.00
+          "hour": 3.20,
+          "day": 70.00,
+          "week": 450.00,
+          "month": 1800.00,
+          "year": 20000.00
         }
       }
     ],

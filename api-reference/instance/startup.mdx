@@ -11,7 +11,15 @@ description: "启动指定的实例"
 ## 请求参数
 
 <ParamField body="instance_uuid" type="string" required>
-  要启动的实例uuid
+  实例uuid
+</ParamField>
+
+<ParamField body="gpu_uuid" type="string" required>
+  gpu型号id
+</ParamField>
+
+<ParamField body="gpu_nums" type="integer" required>
+  gpu数量，支持1/2/4/8
 </ParamField>
 
 ## 响应参数
@@ -38,7 +46,9 @@ headers = {
 }
 
 data = {
-    "instance_uuid": "inst_12345678-1234-1234-1234-123456789012"
+    "instance_uuid": "inst_12345678-1234-1234-1234-123456789012",
+    "gpu_uuid": "gpu_12345678-1234-1234-1234-123456789012",
+    "gpu_nums": 1
 }
 
 response = requests.post(url, headers=headers, json=data)
@@ -60,7 +70,9 @@ const headers = {
 };
 
 const data = {
-    instance_uuid: 'inst_12345678-1234-1234-1234-123456789012'
+    instance_uuid: 'inst_12345678-1234-1234-1234-123456789012',
+    gpu_uuid: 'gpu_12345678-1234-1234-1234-123456789012',
+    gpu_nums: 1
 };
 
 axios.post(url, data, { headers })

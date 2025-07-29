@@ -10,12 +10,16 @@ description: "查询充值记录列表"
 
 ## 请求参数
 
-<ParamField query="page" type="integer" default="1">
+<ParamField query="page" type="string" optional>
   页码，从1开始
 </ParamField>
 
-<ParamField query="page_size" type="integer" default="10">
-  每页数量，最大100
+<ParamField query="page_size" type="string" optional>
+  每页数量
+</ParamField>
+
+<ParamField query="trade_number" type="string" optional>
+  订单号
 </ParamField>
 
 ## 响应参数
@@ -36,32 +40,20 @@ description: "查询充值记录列表"
       充值记录列表
       
       <Expandable title="recharge_list">
-        <ResponseField name="recharge_uuid" type="string">
-          充值记录uuid
-        </ResponseField>
-        
         <ResponseField name="amount" type="number">
           充值金额
         </ResponseField>
-        
-        <ResponseField name="currency" type="string">
-          货币单位
+
+        <ResponseField name="trade_time" type="integer">
+          订单产生时间，秒级时间戳
         </ResponseField>
-        
-        <ResponseField name="status" type="string">
-          充值状态（pending/success/failed）
+
+        <ResponseField name="pay_time" type="integer">
+          支付时间，秒级时间戳
         </ResponseField>
-        
-        <ResponseField name="payment_method" type="string">
-          支付方式
-        </ResponseField>
-        
-        <ResponseField name="create_time" type="string">
-          创建时间
-        </ResponseField>
-        
-        <ResponseField name="complete_time" type="string">
-          完成时间
+
+        <ResponseField name="trade_number" type="string">
+          交易编号
         </ResponseField>
       </Expandable>
     </ResponseField>
@@ -85,8 +77,9 @@ headers = {
 }
 
 params = {
-    "page": 1,
-    "page_size": 10
+    "page": "1",
+    "page_size": "10",
+    "trade_number": "TXN123456789"  # 可选，按订单号筛选
 }
 
 response = requests.get(url, headers=headers, params=params)
@@ -97,9 +90,10 @@ if result['code'] == 0:
     print(f"总记录数: {recharge_data['total']}")
     
     for record in recharge_data['recharge_list']:
-        print(f"充值金额: {record['amount']} {record['currency']}")
-        print(f"状态: {record['status']}")
-        print(f"时间: {record['create_time']}")
+        print(f"充值金额: {record['amount']}")
+        print(f"交易编号: {record['trade_number']}")
+        print(f"订单时间: {record['trade_time']}")
+        print(f"支付时间: {record['pay_time']}")
         print("---")
 else:
     print(f"查询失败: {result['msg']}")
@@ -114,8 +108,9 @@ const headers = {
 };
 
 const params = {
-    page: 1,
-    page_size: 10
+    page: "1",
+    page_size: "10",
+    trade_number: "TXN123456789"  // 可选，按订单号筛选
 };
 
 axios.get(url, { headers, params })
@@ -127,9 +122,10 @@ axios.get(url, { headers, params })
             console.log(`总记录数: ${rechargeData.total}`);
             
             rechargeData.recharge_list.forEach(record => {
-                console.log(`充值金额: ${record.amount} ${record.currency}`);
-                console.log(`状态: ${record.status}`);
-                console.log(`时间: ${record.create_time}`);
+                console.log(`充值金额: ${record.amount}`);
+                console.log(`交易编号: ${record.trade_number}`);
+                console.log(`订单时间: ${record.trade_time}`);
+                console.log(`支付时间: ${record.pay_time}`);
                 console.log('---');
             });
         } else {
@@ -142,7 +138,7 @@ axios.get(url, { headers, params })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v1/recharge/list?page=1&page_size=10" \
+curl -X GET "https://www.chenyu.team/api/open/v1/recharge/list?page=1&page_size=10&trade_number=TXN123456789" \
   -H "Authorization: Bearer your_api_key"
 ```
 
@@ -159,22 +155,16 @@ curl -X GET "https://www.chenyu.team/api/open/v1/recharge/list?page=1&page_size=
   "data": {
     "recharge_list": [
       {
-        "recharge_uuid": "rech_12345678-1234-1234-1234-123456789012",
         "amount": 500.00,
-        "currency": "CNY",
-        "status": "success",
-        "payment_method": "alipay",
-        "create_time": "2024-01-15 10:30:25",
-        "complete_time": "2024-01-15 10:31:10"
+        "trade_time": 1705294225,
+        "pay_time": 1705294270,
+        "trade_number": "TXN20240115103025001"
       },
       {
-        "recharge_uuid": "rech_87654321-4321-4321-4321-210987654321",
         "amount": 1000.00,
-        "currency": "CNY",
-        "status": "success",
-        "payment_method": "wechat",
-        "create_time": "2024-01-10 15:20:15",
-        "complete_time": "2024-01-10 15:21:05"
+        "trade_time": 1704870015,
+        "pay_time": 1704870065,
+        "trade_number": "TXN20240110152015002"
       }
     ],
     "total": 25

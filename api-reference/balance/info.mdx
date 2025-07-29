@@ -31,23 +31,11 @@ description: "查询账户余额信息"
   
   <Expandable title="data">
     <ResponseField name="balance" type="number">
-      可用余额
+      充值余额
     </ResponseField>
-    
-    <ResponseField name="frozen_balance" type="number">
-      冻结余额
-    </ResponseField>
-    
-    <ResponseField name="total_balance" type="number">
-      总余额
-    </ResponseField>
-    
-    <ResponseField name="currency" type="string">
-      货币单位
-    </ResponseField>
-    
-    <ResponseField name="updated_at" type="string">
-      更新时间
+
+    <ResponseField name="card_balance" type="number">
+      算力卡余额
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -69,9 +57,8 @@ result = response.json()
 
 if result['code'] == 0:
     balance_info = result['data']
-    print(f"可用余额: {balance_info['balance']} {balance_info['currency']}")
-    print(f"冻结余额: {balance_info['frozen_balance']} {balance_info['currency']}")
-    print(f"总余额: {balance_info['total_balance']} {balance_info['currency']}")
+    print(f"充值余额: {balance_info['balance']}")
+    print(f"算力卡余额: {balance_info['card_balance']}")
 else:
     print(f"查询失败: {result['msg']}")
 ```
@@ -90,9 +77,8 @@ axios.get(url, { headers })
         
         if (result.code === 0) {
             const balanceInfo = result.data;
-            console.log(`可用余额: ${balanceInfo.balance} ${balanceInfo.currency}`);
-            console.log(`冻结余额: ${balanceInfo.frozen_balance} ${balanceInfo.currency}`);
-            console.log(`总余额: ${balanceInfo.total_balance} ${balanceInfo.currency}`);
+            console.log(`充值余额: ${balanceInfo.balance}`);
+            console.log(`算力卡余额: ${balanceInfo.card_balance}`);
         } else {
             console.log(`查询失败: ${result.msg}`);
         }
@@ -119,10 +105,7 @@ curl -X GET "https://www.chenyu.team/api/open/v1/balance/info" \
   "msg": "查询成功",
   "data": {
     "balance": 1250.50,
-    "frozen_balance": 50.00,
-    "total_balance": 1300.50,
-    "currency": "CNY",
-    "updated_at": "2024-01-15 14:30:25"
+    "card_balance": 500.00
   }
 }
 ```

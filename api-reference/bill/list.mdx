@@ -10,20 +10,22 @@ description: "查询账户消费流水记录"
 
 ## 请求参数
 
-<ParamField query="page" type="integer" default="1">
+<ParamField query="page" type="string" optional>
   页码，从1开始
 </ParamField>
 
-<ParamField query="page_size" type="integer" default="10">
-  每页数量，最大100
+<ParamField query="page_size" type="string" optional>
+  每页数量
 </ParamField>
 
-<ParamField query="start_time" type="string">
-  开始时间，格式：YYYY-MM-DD HH:mm:ss
+<ParamField query="order_channel" type="integer" optional>
+  扣费渠道
+  1.余额消费
+  2.算力卡消费
 </ParamField>
 
-<ParamField query="end_time" type="string">
-  结束时间，格式：YYYY-MM-DD HH:mm:ss
+<ParamField query="order_number" type="string" optional>
+  订单编号
 </ParamField>
 
 ## 响应参数
@@ -40,46 +42,42 @@ description: "查询账户消费流水记录"
   消费流水数据
   
   <Expandable title="data">
-    <ResponseField name="bill_list" type="array">
-      消费流水列表
-      
-      <Expandable title="bill_list">
-        <ResponseField name="bill_uuid" type="string">
-          流水记录uuid
-        </ResponseField>
-        
+    <ResponseField name="order_list" type="array">
+      消费流水记录
+
+      <Expandable title="order_list">
         <ResponseField name="amount" type="number">
-          消费金额
+          金额
         </ResponseField>
-        
-        <ResponseField name="currency" type="string">
-          货币单位
+
+        <ResponseField name="charge_channel" type="integer">
+          扣费渠道 1.余额 2.算力卡
         </ResponseField>
-        
-        <ResponseField name="bill_type" type="string">
-          消费类型
+
+        <ResponseField name="order_number" type="string">
+          订单编号
         </ResponseField>
-        
-        <ResponseField name="description" type="string">
-          消费描述
+
+        <ResponseField name="order_time" type="integer">
+          订单发生时间，秒级时间戳
         </ResponseField>
-        
-        <ResponseField name="instance_uuid" type="string">
-          关联实例uuid（如果有）
+
+        <ResponseField name="settle_start_time" type="integer">
+          计费开始时间，秒级时间戳
         </ResponseField>
-        
-        <ResponseField name="create_time" type="string">
-          创建时间
+
+        <ResponseField name="settle_end_time" type="integer">
+          计费结束时间，秒级时间戳
+        </ResponseField>
+
+        <ResponseField name="remark" type="string">
+          备注
         </ResponseField>
       </Expandable>
     </ResponseField>
     
     <ResponseField name="total" type="integer">
-      总记录数
-    </ResponseField>
-    
-    <ResponseField name="total_amount" type="number">
-      总消费金额
+      总记录数量
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -97,10 +95,10 @@ headers = {
 }
 
 params = {
-    "page": 1,
-    "page_size": 10,
-    "start_time": "2024-01-01 00:00:00",
-    "end_time": "2024-01-31 23:59:59"
+    "page": "1",
+    "page_size": "10",
+    "order_channel": 1,  # 可选，1.余额消费 2.算力卡消费
+    "order_number": "ORD123456789"  # 可选，按订单编号筛选
 }
 
 response = requests.get(url, headers=headers, params=params)
@@ -109,13 +107,13 @@ result = response.json()
 if result['code'] == 0:
     bill_data = result['data']
     print(f"总记录数: {bill_data['total']}")
-    print(f"总消费金额: {bill_data['total_amount']}")
-    
-    for record in bill_data['bill_list']:
-        print(f"消费金额: {record['amount']} {record['currency']}")
-        print(f"类型: {record['bill_type']}")
-        print(f"描述: {record['description']}")
-        print(f"时间: {record['create_time']}")
+
+    for record in bill_data['order_list']:
+        print(f"消费金额: {record['amount']}")
+        print(f"扣费渠道: {record['charge_channel']}")
+        print(f"订单编号: {record['order_number']}")
+        print(f"订单时间: {record['order_time']}")
+        print(f"备注: {record['remark']}")
         print("---")
 else:
     print(f"查询失败: {result['msg']}")
@@ -130,10 +128,10 @@ const headers = {
 };
 
 const params = {
-    page: 1,
-    page_size: 10,
-    start_time: '2024-01-01 00:00:00',
-    end_time: '2024-01-31 23:59:59'
+    page: "1",
+    page_size: "10",
+    order_channel: 1,  // 可选，1.余额消费 2.算力卡消费
+    order_number: "ORD123456789"  // 可选，按订单编号筛选
 };
 
 axios.get(url, { headers, params })
@@ -143,13 +141,13 @@ axios.get(url, { headers, params })
         if (result.code === 0) {
             const billData = result.data;
             console.log(`总记录数: ${billData.total}`);
-            console.log(`总消费金额: ${billData.total_amount}`);
-            
-            billData.bill_list.forEach(record => {
-                console.log(`消费金额: ${record.amount} ${record.currency}`);
-                console.log(`类型: ${record.bill_type}`);
-                console.log(`描述: ${record.description}`);
-                console.log(`时间: ${record.create_time}`);
+
+            billData.order_list.forEach(record => {
+                console.log(`消费金额: ${record.amount}`);
+                console.log(`扣费渠道: ${record.charge_channel}`);
+                console.log(`订单编号: ${record.order_number}`);
+                console.log(`订单时间: ${record.order_time}`);
+                console.log(`备注: ${record.remark}`);
                 console.log('---');
             });
         } else {
@@ -162,7 +160,7 @@ axios.get(url, { headers, params })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v1/bill/list?page=1&page_size=10&start_time=2024-01-01%2000:00:00&end_time=2024-01-31%2023:59:59" \
+curl -X GET "https://www.chenyu.team/api/open/v1/bill/list?page=1&page_size=10&order_channel=1&order_number=ORD123456789" \
   -H "Authorization: Bearer your_api_key"
 ```
 
@@ -177,28 +175,27 @@ curl -X GET "https://www.chenyu.team/api/open/v1/bill/list?page=1&page_size=10&s
   "code": 0,
   "msg": "查询成功",
   "data": {
-    "bill_list": [
+    "order_list": [
       {
-        "bill_uuid": "bill_12345678-1234-1234-1234-123456789012",
         "amount": 25.50,
-        "currency": "CNY",
-        "bill_type": "instance_usage",
-        "description": "GPU实例使用费用",
-        "instance_uuid": "inst_12345678-1234-1234-1234-123456789012",
-        "create_time": "2024-01-15 14:30:25"
+        "charge_channel": 1,
+        "order_number": "ORD20240115143025001",
+        "order_time": 1705308625,
+        "settle_start_time": 1705308000,
+        "settle_end_time": 1705308625,
+        "remark": "GPU实例使用费用"
       },
       {
-        "bill_uuid": "bill_87654321-4321-4321-4321-210987654321",
         "amount": 10.00,
-        "currency": "CNY",
-        "bill_type": "storage",
-        "description": "存储费用",
-        "instance_uuid": null,
-        "create_time": "2024-01-15 12:00:00"
+        "charge_channel": 2,
+        "order_number": "ORD20240115120000002",
+        "order_time": 1705299600,
+        "settle_start_time": 1705299000,
+        "settle_end_time": 1705299600,
+        "remark": "存储费用"
       }
     ],
-    "total": 156,
-    "total_amount": 1250.75
+    "total": 156
   }
 }
 ```
