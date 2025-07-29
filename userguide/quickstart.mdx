@@ -31,16 +31,16 @@ icon: "rocket"
 首先，我们需要查看当前可用的Pod资源：
 
 ```bash
-curl -X GET "https://api.chenyu.com/v1/pods" \
+curl -X GET "https://www.chenyu.team/api/open/v2/pod/list" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### 1.2 选择GPU型号
 
-查看指定Pod支持的GPU型号：
+查看平台支持的GPU型号：
 
 ```bash
-curl -X GET "https://api.chenyu.com/v1/gpu-models?pod_uuid=YOUR_POD_UUID" \
+curl -X GET "https://www.chenyu.team/api/open/v2/gpu/list" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -51,20 +51,21 @@ curl -X GET "https://api.chenyu.com/v1/gpu-models?pod_uuid=YOUR_POD_UUID" \
 <CodeGroup>
 
 ```bash cURL
-curl -X POST "https://api.chenyu.com/v1/instances" \
+curl -X POST "https://www.chenyu.team/api/open/v2/instance/create_by_pod" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "pod_uuid": "pod_12345678-1234-1234-1234-123456789012",
-    "gpu_model_uuid": "gpu_87654321-4321-4321-4321-210987654321",
-    "auto_start": 1
+    "pod_tag": "latest",
+    "gpu_uuid": "gpu_87654321-4321-4321-4321-210987654321",
+    "gpu_nums": 1
   }'
 ```
 
 ```python Python
 import requests
 
-url = "https://api.chenyu.com/v1/instances"
+url = "https://www.chenyu.team/api/open/v2/instance/create_by_pod"
 headers = {
     "Authorization": "Bearer YOUR_API_KEY",
     "Content-Type": "application/json"
@@ -72,13 +73,17 @@ headers = {
 
 data = {
     "pod_uuid": "pod_12345678-1234-1234-1234-123456789012",
-    "gpu_model_uuid": "gpu_87654321-4321-4321-4321-210987654321",
-    "auto_start": 1
+    "pod_tag": "latest",
+    "gpu_uuid": "gpu_87654321-4321-4321-4321-210987654321",
+    "gpu_nums": 1
 }
 
 response = requests.post(url, headers=headers, json=data)
 instance_info = response.json()
-print(f"实例UUID: {instance_info['data']['instance_uuid']}")
+if instance_info['code'] == 0:
+    print(f"实例UUID: {instance_info['data']['instance_uuid']}")
+else:
+    print(f"创建失败: {instance_info['msg']}")
 ```
 
 </CodeGroup>
@@ -88,45 +93,11 @@ print(f"实例UUID: {instance_info['data']['instance_uuid']}")
 创建实例后，监控其启动状态：
 
 ```bash
-curl -X GET "https://api.chenyu.com/v1/instances/YOUR_INSTANCE_UUID/status" \
+curl -X GET "https://www.chenyu.team/api/open/v2/instance/list" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-等待实例状态变为 `running` 后，您就可以开始使用了。
-
-## 第四步：连接实例
-
-### 4.1 SSH连接
-
-使用SSH连接到您的实例：
-
-```bash
-ssh root@INSTANCE_IP_ADDRESS
-```
-
-### 4.2 验证GPU资源
-
-连接成功后，验证GPU是否正常工作：
-
-```bash
-nvidia-smi
-```
-
-您应该看到类似以下输出：
-
-```
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 525.60.13    Driver Version: 525.60.13    CUDA Version: 12.0     |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|                               |                      |               MIG M. |
-|===============================+======================+======================|
-|   0  NVIDIA A100-SXM...  On   | 00000000:00:04.0 Off |                    0 |
-| N/A   30C    P0    53W / 400W |      0MiB / 81920MiB |      0%      Default |
-|                               |                      |             Disabled |
-+-------------------------------+----------------------+----------------------+
-```
+等待实例状态变为 `2`（运行中）后，您就可以开始使用了。
 
 ## 完整示例
 
@@ -142,50 +113,51 @@ import json
 class ChenyuClient:
     def __init__(self, api_key):
         self.api_key = api_key
-        self.base_url = "https://api.chenyu.com/v1"
+        self.base_url = "https://www.chenyu.team/api/open/v2"
         self.headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"
         }
-    
+
     def get_pods(self):
         """获取可用Pod列表"""
-        response = requests.get(f"{self.base_url}/pods", headers=self.headers)
+        response = requests.get(f"{self.base_url}/pod/list", headers=self.headers)
         return response.json()
-    
-    def get_gpu_models(self, pod_uuid):
+
+    def get_gpu_models(self):
         """获取GPU型号列表"""
-        params = {"pod_uuid": pod_uuid}
-        response = requests.get(f"{self.base_url}/gpu-models", 
-                              headers=self.headers, params=params)
+        response = requests.get(f"{self.base_url}/gpu/list", headers=self.headers)
         return response.json()
-    
-    def create_instance(self, pod_uuid, gpu_model_uuid, auto_start=1):
+
+    def create_instance(self, pod_uuid, pod_tag, gpu_uuid, gpu_nums=1):
         """创建实例"""
         data = {
             "pod_uuid": pod_uuid,
-            "gpu_model_uuid": gpu_model_uuid,
-            "auto_start": auto_start
+            "pod_tag": pod_tag,
+            "gpu_uuid": gpu_uuid,
+            "gpu_nums": gpu_nums
         }
-        response = requests.post(f"{self.base_url}/instances", 
+        response = requests.post(f"{self.base_url}/instance/create_by_pod",
                                headers=self.headers, json=data)
         return response.json()
-    
-    def get_instance_status(self, instance_uuid):
-        """获取实例状态"""
-        response = requests.get(f"{self.base_url}/instances/{instance_uuid}/status", 
-                              headers=self.headers)
+
+    def get_instance_list(self):
+        """获取实例列表"""
+        response = requests.get(f"{self.base_url}/instance/list", headers=self.headers)
         return response.json()
-    
+
     def wait_for_instance_ready(self, instance_uuid, timeout=300):
         """等待实例就绪"""
         start_time = time.time()
         while time.time() - start_time < timeout:
-            status = self.get_instance_status(instance_uuid)
-            if status['data']['status'] == 'running':
-                return True
-            elif status['data']['status'] in ['failed', 'error']:
-                return False
+            instances = self.get_instance_list()
+            if instances['code'] == 0:
+                for instance in instances['data']['instance_list']:
+                    if instance['instance_uuid'] == instance_uuid:
+                        if instance['status'] == 2:  # 运行中
+                            return True
+                        elif instance['status'] in [21, 22]:  # 关机中或已关机
+                            return False
             time.sleep(10)
         return False
 
@@ -196,39 +168,50 @@ if __name__ == "__main__":
     
     # 1. 获取可用Pod
     pods = client.get_pods()
-    print("可用Pod列表:")
-    for pod in pods['data']:
-        print(f"- {pod['pod_name']} ({pod['location']})")
-    
-    # 2. 选择第一个Pod并获取GPU型号
-    pod_uuid = pods['data'][0]['pod_uuid']
-    gpu_models = client.get_gpu_models(pod_uuid)
-    print(f"\n{pods['data'][0]['pod_name']} 支持的GPU:")
-    for gpu in gpu_models['data']:
-        print(f"- {gpu['gpu_name']} - {gpu['price_per_hour']}元/小时")
-    
+    if pods['code'] == 0:
+        print("可用Pod列表:")
+        for pod in pods['data']['pod_list']:
+            print(f"- {pod['title']}")
+
+    # 2. 获取GPU型号
+    gpu_models = client.get_gpu_models()
+    if gpu_models['code'] == 0:
+        print("\n支持的GPU:")
+        for gpu in gpu_models['data']['gpu_list']:
+            print(f"- {gpu['gpu_name']} - {gpu['price']['hour']}元/小时")
+
     # 3. 创建实例
-    gpu_model_uuid = gpu_models['data'][0]['gpu_model_uuid']
-    result = client.create_instance(pod_uuid, gpu_model_uuid)
-    
-    if result['code'] == 200:
-        instance_uuid = result['data']['instance_uuid']
-        print(f"\n实例创建成功！UUID: {instance_uuid}")
-        
-        # 4. 等待实例就绪
-        print("等待实例启动...")
-        if client.wait_for_instance_ready(instance_uuid):
-            print("✅ 实例已就绪，可以开始使用！")
-            
-            # 获取实例详细信息
-            status = client.get_instance_status(instance_uuid)
-            instance_info = status['data']
-            print(f"实例IP: {instance_info.get('ip_address', 'N/A')}")
-            print(f"SSH连接: ssh root@{instance_info.get('ip_address', 'N/A')}")
+    if pods['code'] == 0 and gpu_models['code'] == 0:
+        pod_uuid = pods['data']['pod_list'][0]['uuid']
+        pod_tag = "latest"  # 使用默认标签
+        gpu_uuid = gpu_models['data']['gpu_list'][0]['gpu_uuid']
+        result = client.create_instance(pod_uuid, pod_tag, gpu_uuid)
+
+        if result['code'] == 0:
+            instance_uuid = result['data']['instance_uuid']
+            print(f"\n实例创建成功！UUID: {instance_uuid}")
+
+            # 4. 等待实例就绪
+            print("等待实例启动...")
+            if client.wait_for_instance_ready(instance_uuid):
+                print("✅ 实例已就绪，可以开始使用！")
+
+                # 获取实例详细信息
+                instances = client.get_instance_list()
+                if instances['code'] == 0:
+                    for instance in instances['data']['instance_list']:
+                        if instance['instance_uuid'] == instance_uuid:
+                            print(f"实例名称: {instance['title']}")
+                            if instance['server_url']:
+                                print("服务地址:")
+                                for url in instance['server_url']:
+                                    print(f"  - {url}")
+            else:
+                print("❌ 实例启动失败或超时")
         else:
-            print("❌ 实例启动失败或超时")
+            print(f"❌ 实例创建失败: {result['msg']}")
     else:
-        print(f"❌ 实例创建失败: {result['message']}")
+        print("❌ 获取资源信息失败")
 ```
 
 </CodeGroup>
@@ -244,9 +227,8 @@ if __name__ == "__main__":
   </Accordion>
   
   <Accordion title="如何选择合适的GPU型号？" icon="microchip">
-    - **A100 80GB**: 适合大规模深度学习训练，内存充足
+    - **A100 40GB**: 适合大规模深度学习训练，内存充足
     - **RTX 4090**: 适合推理和中小规模训练，性价比高
-    - **H100**: 最新架构，适合最前沿的AI工作负载
   </Accordion>
   
   <Accordion title="实例启动很慢怎么办？" icon="clock">
@@ -280,7 +262,7 @@ if __name__ == "__main__":
   <Card title="计费说明" icon="credit-card" href="/userguide/billing">
     了解详细的计费规则和成本优化策略
   </Card>
-  <Card title="技术支持" icon="headset" href="mailto:support@chenyu.com">
+  <Card title="技术支持" icon="headset" href="mailto:admin@chenyu.com">
     遇到问题？联系我们的技术支持团队
   </Card>
 </CardGroup>

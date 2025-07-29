@@ -39,10 +39,6 @@
       "url": "userguide"
     },
     {
-      "name": "弹性部署",
-      "url": "elastic-deployment"
-    },
-    {
       "name": "API 参考",
       "url": "api-reference"
     }
@@ -56,30 +52,6 @@
         "userguide/introduction",
         "userguide/quickstart",
         "userguide/authentication"
-      ]
-    },
-    {
-      "group": "弹性部署概述",
-      "pages": [
-        "elastic-deployment/introduction",
-        "elastic-deployment/concepts",
-        "elastic-deployment/architecture"
-      ]
-    },
-    {
-      "group": "部署配置",
-      "pages": [
-        "elastic-deployment/configuration",
-        "elastic-deployment/scaling-policies",
-        "elastic-deployment/monitoring"
-      ]
-    },
-    {
-      "group": "最佳实践",
-      "pages": [
-        "elastic-deployment/best-practices",
-        "elastic-deployment/troubleshooting",
-        "elastic-deployment/faq"
       ]
     },
     {

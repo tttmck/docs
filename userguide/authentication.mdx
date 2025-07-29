@@ -36,7 +36,7 @@ icon: "key"
 </Steps>
 
 <Warning>
-  **重要提醒** - API Key只在创建时显示一次，请务必妥善保存。如果丢失，需要重新创建新的API Key。
+  **重要提醒** - 请妥善保管您的API Key，切勿泄露。
 </Warning>
 
 ## 使用API Key
@@ -54,7 +54,7 @@ Authorization: Bearer YOUR_API_KEY
 <CodeGroup>
 
 ```bash cURL
-curl -X GET "https://api.chenyu.com/v1/account/balance" \
+curl -X GET "https://www.chenyu.team/api/open/v2/balance/info" \
   -H "Authorization: Bearer cy_1234567890abcdef1234567890abcdef" \
   -H "Content-Type: application/json"
 ```
@@ -67,7 +67,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
-response = requests.get("https://api.chenyu.com/v1/account/balance", headers=headers)
+response = requests.get("https://www.chenyu.team/api/open/v2/balance/info", headers=headers)
 print(response.json())
 ```
 
@@ -79,7 +79,7 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-axios.get('https://api.chenyu.com/v1/account/balance', { headers })
+axios.get('https://www.chenyu.team/api/open/v2/balance/info', { headers })
     .then(response => console.log(response.data))
     .catch(error => console.error(error));
 ```
@@ -94,17 +94,17 @@ import (
 )
 
 func main() {
-    req, _ := http.NewRequest("GET", "https://api.chenyu.com/v1/account/balance", nil)
+    req, _ := http.NewRequest("GET", "https://www.chenyu.team/api/open/v2/balance/info", nil)
     req.Header.Set("Authorization", "Bearer cy_1234567890abcdef1234567890abcdef")
     req.Header.Set("Content-Type", "application/json")
-    
+
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
         panic(err)
     }
     defer resp.Body.Close()
-    
+
     body, _ := io.ReadAll(resp.Body)
     fmt.Println(string(body))
 }
@@ -161,76 +161,6 @@ func main() {
   **安全提醒**: 在公共环境中使用API Playground时，请注意保护您的API Key安全。测试完成后建议清除输入框中的API Key。
 </Warning>
 
-## 权限管理
-
-### 权限类型
-
-晨羽智云API支持细粒度的权限控制，您可以为不同的应用场景创建具有不同权限的API Key：
-
-<Tabs>
-  <Tab title="只读权限">
-    **适用场景**: 监控、报表、数据分析
-    
-    **可访问接口**:
-    - `GET /v1/account/balance` - 查询账户余额
-    - `GET /v1/account/billing` - 查询账单记录
-    - `GET /v1/instances` - 查询实例列表
-    - `GET /v1/instances/{id}/status` - 查询实例状态
-    - `GET /v1/instances/{id}/metrics` - 查询实例监控数据
-  </Tab>
-  
-  <Tab title="实例管理">
-    **适用场景**: 实例生命周期管理、自动化运维
-    
-    **可访问接口**:
-    - 包含所有只读权限
-    - `POST /v1/instances` - 创建实例
-    - `POST /v1/instances/{id}/start` - 启动实例
-    - `POST /v1/instances/{id}/stop` - 停止实例
-    - `POST /v1/instances/{id}/restart` - 重启实例
-    - `PUT /v1/instances/{id}/schedule` - 设置定时任务
-  </Tab>
-  
-  <Tab title="完全访问">
-    **适用场景**: 全功能管理、企业集成
-    
-    **可访问接口**:
-    - 所有API接口的完全访问权限
-    - 包括账户管理、实例管理、监控数据等
-    - 适合企业级集成和全自动化管理
-  </Tab>
-  
-  <Tab title="自定义权限">
-    **适用场景**: 特定业务需求
-    
-    **配置方式**:
-    - 根据具体需求选择特定的API接口
-    - 可以组合不同类型的权限
-    - 支持IP白名单限制
-  </Tab>
-</Tabs>
-
-### 权限配置示例
-
-在创建API Key时，可以通过以下方式配置权限：
-
-```json
-{
-  "name": "生产环境监控",
-  "description": "用于生产环境的实例监控和告警",
-  "permissions": [
-    "instances:read",
-    "monitoring:read",
-    "account:read"
-  ],
-  "ip_whitelist": [
-    "203.0.113.0/24",
-    "198.51.100.10"
-  ],
-  "expires_at": "2024-12-31T23:59:59Z"
-}
-```
-
 ## 安全最佳实践
 
 ### 🔐 API Key管理
@@ -251,27 +181,6 @@ func main() {
     api_key = os.getenv('CHENYU_API_KEY')
     ```
   </Accordion>
-  
-  <Accordion title="权限最小化" icon="lock">
-    - **最小权限原则**: 只授予应用所需的最小权限
-    - **分离职责**: 为不同的应用创建不同的API Key
-    - **定期审查**: 定期检查和清理不必要的权限
-    - **时效性**: 为临时使用的API Key设置过期时间
-  </Accordion>
-  
-  <Accordion title="网络安全" icon="network-wired">
-    - **IP白名单**: 限制API Key只能从特定IP地址访问
-    - **HTTPS**: 始终使用HTTPS协议进行API调用
-    - **防火墙**: 在服务器端配置防火墙规则
-    - **VPN**: 对于敏感操作，考虑使用VPN连接
-  </Accordion>
-  
-  <Accordion title="监控告警" icon="bell">
-    - **使用日志**: 记录所有API调用和异常情况
-    - **异常监控**: 设置异常登录和使用模式的告警
-    - **定期审计**: 定期审查API使用日志
-    - **自动化**: 使用自动化工具监控API Key的使用情况
-  </Accordion>
 </AccordionGroup>
 
 ### 🚨 安全事件响应
@@ -281,9 +190,6 @@ func main() {
 <Steps>
   <Step title="立即禁用">
     在控制台中立即禁用或删除相关的API Key
-  </Step>
-  <Step title="检查日志">
-    查看API使用日志，分析可能的异常活动
   </Step>
   <Step title="创建新密钥">
     创建新的API Key，并更新应用配置
@@ -317,25 +223,7 @@ func main() {
     }
     ```
   </Tab>
-  
-  <Tab title="403 Forbidden">
-    **错误原因**:
-    - API Key权限不足
-    - IP地址不在白名单中
-    - 资源访问被拒绝
-    
-    **解决方案**:
-    ```python
-    # 检查权限
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-    except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 403:
-            print("权限不足，请检查API Key权限配置")
-    ```
-  </Tab>
-  
+
   <Tab title="429 Too Many Requests">
     **错误原因**:
     - 请求频率超过限制
@@ -372,7 +260,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 CHENYU_API_KEY = os.getenv('CHENYU_API_KEY_DEV')
-CHENYU_BASE_URL = 'https://api.chenyu.com/v1'
+CHENYU_BASE_URL = 'https://www.chenyu.team/api/open/v2'
 ```
 
 ### 生产环境
@@ -383,7 +271,7 @@ import os
 
 # 从环境变量或密钥管理系统获取
 CHENYU_API_KEY = os.getenv('CHENYU_API_KEY_PROD')
-CHENYU_BASE_URL = 'https://api.chenyu.com/v1'
+CHENYU_BASE_URL = 'https://www.chenyu.team/api/open/v2'
 
 # 生产环境额外配置
 TIMEOUT = 30
@@ -396,7 +284,7 @@ MAX_RETRIES = 3
 
 ```bash
 # 测试API Key是否有效
-curl -X GET "https://api.chenyu.com/v1/account/balance" \
+curl -X GET "https://www.chenyu.team/api/open/v2/balance/info" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json"
 ```
@@ -404,12 +292,11 @@ curl -X GET "https://api.chenyu.com/v1/account/balance" \
 成功响应示例：
 ```json
 {
-  "code": 200,
-  "message": "查询成功",
+  "code": 0,
+  "msg": "查询成功",
   "data": {
     "balance": 1000.50,
-    "currency": "CNY",
-    "updated_at": "2024-01-15T10:30:00Z"
+    "card_balance": 500.00
   }
 }
 ```
@@ -425,4 +312,4 @@ curl -X GET "https://api.chenyu.com/v1/account/balance" \
 - [快速开始](/userguide/quickstart) - 了解如何快速开始使用API
 - [API参考](/api-reference/introduction) - 查看完整的API文档
 - [功能介绍](/userguide/introduction) - 深入了解平台功能
-- [技术支持](mailto:support@chenyu.com) - 获取专业技术支持 
+- [技术支持](mailto:support@chenyu.com) - 获取专业技术支持

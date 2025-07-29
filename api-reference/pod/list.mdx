@@ -39,48 +39,48 @@ authMethod: "none"
 
 <ResponseField name="data" type="object">
   返回数据
-
+  
   <Expandable title="data">
     <ResponseField name="pod_list" type="array">
       Pod列表
-
+      
       <Expandable title="pod_list">
         <ResponseField name="title" type="string">
           Pod名称
         </ResponseField>
-
+        
         <ResponseField name="uuid" type="string">
           Pod uuid
         </ResponseField>
-
+        
         <ResponseField name="remark" type="string">
           Pod描述
         </ResponseField>
-
+        
         <ResponseField name="pod_tag" type="array">
           Pod版本标签列表
         </ResponseField>
-
+        
         <ResponseField name="price" type="object">
           价格信息
-
+          
           <Expandable title="price">
             <ResponseField name="hour" type="number" required>
               按小时定价
             </ResponseField>
-
+            
             <ResponseField name="day" type="number">
               按天定价
             </ResponseField>
-
+            
             <ResponseField name="week" type="number">
               按周定价
             </ResponseField>
-
+            
             <ResponseField name="month" type="number">
               按月定价
             </ResponseField>
-
+            
             <ResponseField name="year" type="number">
               按年定价
             </ResponseField>
@@ -88,7 +88,7 @@ authMethod: "none"
         </ResponseField>
       </Expandable>
     </ResponseField>
-
+    
     <ResponseField name="total" type="integer">
       总记录数量
     </ResponseField>

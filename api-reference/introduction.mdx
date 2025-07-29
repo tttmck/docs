@@ -36,8 +36,8 @@ Authorization: Bearer YOUR_API_KEY
 
 ```json
 {
-  "code": 200,
-  "message": "操作成功",
+  "code": 0,
+  "msg": "操作成功",
   "data": {
     // 具体的响应数据
   }
@@ -99,7 +99,7 @@ graph LR
 
 - `GET /api/open/v2/pod/list` - 获取Pod列表
 - `GET /api/open/v2/gpu/list` - 获取GPU列表
-- `GET /api/open/v2/image/market_list` - 获取市场镜像列表
+- `GET /api/open/v2/image/market/list` - 获取市场镜像列表
 
 ## 快速开始
 
@@ -320,7 +320,7 @@ def retry_with_backoff(func, max_retries=3):
 
 ### 当前版本
 
-- **API版本**: v1
+- **API版本**: v2
 - **发布日期**: 2024-01-01
 - **更新频率**: 每月更新
 
@@ -328,7 +328,7 @@ def retry_with_backoff(func, max_retries=3):
 
 - **向后兼容**: 确保已发布的API在新版本中保持兼容
 - **废弃通知**: 废弃的API将提前3个月通知
-- **版本标记**: 通过URL路径标识版本（如`/v1/`）
+- **版本标记**: 通过URL路径标识版本（如`/api/open/v2/`）
 
 ## 最佳实践
 
