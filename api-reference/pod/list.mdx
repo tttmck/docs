@@ -2,11 +2,16 @@
 title: "查询应用市场Pod"
 api: "GET https://www.chenyu.team/api/open/v2/pod/list"
 description: "查询应用市场中可用的Pod列表"
+authMethod: "none"
 ---
 
 # 查询应用市场Pod
 
 获取应用市场中所有可用的Pod列表，支持分页查询和按名称筛选。
+
+<Info>
+  **无需认证**: 此接口为公开接口，无需提供API Key即可访问。
+</Info>
 
 ## 请求参数
 
@@ -34,48 +39,48 @@ description: "查询应用市场中可用的Pod列表"
 
 <ResponseField name="data" type="object">
   返回数据
-  
+
   <Expandable title="data">
     <ResponseField name="pod_list" type="array">
       Pod列表
-      
+
       <Expandable title="pod_list">
         <ResponseField name="title" type="string">
           Pod名称
         </ResponseField>
-        
+
         <ResponseField name="uuid" type="string">
           Pod uuid
         </ResponseField>
-        
+
         <ResponseField name="remark" type="string">
           Pod描述
         </ResponseField>
-        
+
         <ResponseField name="pod_tag" type="array">
           Pod版本标签列表
         </ResponseField>
-        
+
         <ResponseField name="price" type="object">
           价格信息
-          
+
           <Expandable title="price">
             <ResponseField name="hour" type="number" required>
               按小时定价
             </ResponseField>
-            
+
             <ResponseField name="day" type="number">
               按天定价
             </ResponseField>
-            
+
             <ResponseField name="week" type="number">
               按周定价
             </ResponseField>
-            
+
             <ResponseField name="month" type="number">
               按月定价
             </ResponseField>
-            
+
             <ResponseField name="year" type="number">
               按年定价
             </ResponseField>
@@ -83,7 +88,7 @@ description: "查询应用市场中可用的Pod列表"
         </ResponseField>
       </Expandable>
     </ResponseField>
-    
+
     <ResponseField name="total" type="integer">
       总记录数量
     </ResponseField>
@@ -99,7 +104,6 @@ import requests
 
 url = "https://www.chenyu.team/api/open/v2/pod/list"
 headers = {
-    "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
 }
 
@@ -125,7 +129,6 @@ const axios = require('axios');
 
 const url = 'https://www.chenyu.team/api/open/v2/pod/list';
 const headers = {
-    'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
 };
 
@@ -139,7 +142,7 @@ axios.get(url, { headers, params })
     .then(response => {
         const data = response.data.data;
         console.log(`总共找到 ${data.total} 个Pod`);
-        
+
         data.pod_list.forEach(pod => {
             console.log(`Pod名称: ${pod.title}`);
             console.log(`描述: ${pod.remark}`);
@@ -154,7 +157,6 @@ axios.get(url, { headers, params })
 
 ```curl cURL
 curl -X GET "https://www.chenyu.team/api/open/v2/pod/list?page=1&page_size=10&name=pytorch" \
-  -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json"
 ```
 
