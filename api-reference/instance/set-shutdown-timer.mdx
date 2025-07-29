@@ -1,6 +1,6 @@
 ---
 title: "设置定时关机"
-api: "POST https://www.chenyu.team/api/open/v1/instance/shutdown-timer"
+api: "POST https://www.chenyu.team/api/open/v2/instance/shutdown_timer"
 description: "为实例设置定时关机"
 ---
 
@@ -39,7 +39,7 @@ description: "为实例设置定时关机"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/instance/shutdown-timer"
+url = "https://www.chenyu.team/api/open/v2/instance/shutdown_timer"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -63,7 +63,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/instance/shutdown-timer';
+const url = 'https://www.chenyu.team/api/open/v2/instance/shutdown_timer';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ axios.post(url, data, { headers })
 ```
 
 ```curl cURL
-curl -X POST "https://www.chenyu.team/api/open/v1/instance/shutdown-timer" \
+curl -X POST "https://www.chenyu.team/api/open/v2/instance/shutdown_timer" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json" \
   -d '{

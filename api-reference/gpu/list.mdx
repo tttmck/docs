@@ -1,6 +1,6 @@
 ---
 title: "获取平台GPU列表"
-api: "GET https://www.chenyu.team/api/open/v1/gpu/list"
+api: "GET https://www.chenyu.team/api/open/v2/gpu/list"
 description: "获取平台可用的GPU型号列表及价格信息"
 ---
 
@@ -83,7 +83,7 @@ description: "获取平台可用的GPU型号列表及价格信息"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/gpu/list"
+url = "https://www.chenyu.team/api/open/v2/gpu/list"
 headers = {
     "Authorization": "Bearer your_api_key"
 }
@@ -112,7 +112,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/gpu/list';
+const url = 'https://www.chenyu.team/api/open/v2/gpu/list';
 const headers = {
     'Authorization': 'Bearer your_api_key'
 };
@@ -148,7 +148,7 @@ axios.get(url, { headers })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v1/gpu/list" \
+curl -X GET "https://www.chenyu.team/api/open/v2/gpu/list" \
   -H "Authorization: Bearer your_api_key"
 ```
 

@@ -1,6 +1,6 @@
 ---
 title: "销毁实例"
-api: "POST https://www.chenyu.team/api/open/v1/instance/destroy"
+api: "POST https://www.chenyu.team/api/open/v2/instance/destroy"
 description: "销毁指定的实例"
 ---
 
@@ -35,7 +35,7 @@ description: "销毁指定的实例"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/instance/destroy"
+url = "https://www.chenyu.team/api/open/v2/instance/destroy"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -57,7 +57,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/instance/destroy';
+const url = 'https://www.chenyu.team/api/open/v2/instance/destroy';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ axios.post(url, data, { headers })
 ```
 
 ```curl cURL
-curl -X POST "https://www.chenyu.team/api/open/v1/instance/destroy" \
+curl -X POST "https://www.chenyu.team/api/open/v2/instance/destroy" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json" \
   -d '{

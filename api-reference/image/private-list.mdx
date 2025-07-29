@@ -1,6 +1,6 @@
 ---
 title: "查询个人镜像"
-api: "GET https://www.chenyu.team/api/open/v1/image/private/list"
+api: "GET https://www.chenyu.team/api/open/v2/image/private/list"
 description: "查询用户的个人镜像列表"
 ---
 
@@ -88,7 +88,7 @@ description: "查询用户的个人镜像列表"
 import requests
 from datetime import datetime
 
-url = "https://www.chenyu.team/api/open/v1/image/private/list"
+url = "https://www.chenyu.team/api/open/v2/image/private/list"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -117,7 +117,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/image/private/list';
+const url = 'https://www.chenyu.team/api/open/v2/image/private/list';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -152,7 +152,7 @@ axios.get(url, { headers })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v1/image/private/list" \
+curl -X GET "https://www.chenyu.team/api/open/v2/image/private/list" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json"
 ```

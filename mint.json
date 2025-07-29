@@ -111,9 +111,9 @@
         "api-reference/instance/startup",
         "api-reference/instance/shutdown",
         "api-reference/instance/restart",
-        "api-reference/instance/set-shutdown-timer",
+        "api-reference/instance/set-shutdown_timer",
         "api-reference/instance/destroy",
-        "api-reference/instance/save-image"
+        "api-reference/instance/save_image"
       ]
     },
     {

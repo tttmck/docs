@@ -1,6 +1,6 @@
 ---
 title: "通过Pod创建实例"
-api: "POST https://www.chenyu.team/api/open/v1/instance/create_by_pod"
+api: "POST https://www.chenyu.team/api/open/v2/instance/create_by_pod"
 description: "使用指定的Pod创建GPU实例"
 ---
 
@@ -123,7 +123,7 @@ description: "使用指定的Pod创建GPU实例"
 import requests
 from datetime import datetime
 
-url = "https://www.chenyu.team/api/open/v1/instance/create_by_pod"
+url = "https://www.chenyu.team/api/open/v2/instance/create_by_pod"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -161,7 +161,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/instance/create_by_pod';
+const url = 'https://www.chenyu.team/api/open/v2/instance/create_by_pod';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -205,7 +205,7 @@ axios.post(url, data, { headers })
 ```
 
 ```curl cURL
-curl -X POST "https://www.chenyu.team/api/open/v1/instance/create_by_pod" \
+curl -X POST "https://www.chenyu.team/api/open/v2/instance/create_by_pod" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json" \
   -d '{

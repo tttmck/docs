@@ -1,6 +1,6 @@
 ---
 title: "实例开机"
-api: "POST https://www.chenyu.team/api/open/v1/instance/startup"
+api: "POST https://www.chenyu.team/api/open/v2/instance/startup"
 description: "启动指定的实例"
 ---
 
@@ -39,7 +39,7 @@ description: "启动指定的实例"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/instance/startup"
+url = "https://www.chenyu.team/api/open/v2/instance/startup"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -63,7 +63,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/instance/startup';
+const url = 'https://www.chenyu.team/api/open/v2/instance/startup';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ axios.post(url, data, { headers })
 ```
 
 ```curl cURL
-curl -X POST "https://www.chenyu.team/api/open/v1/instance/startup" \
+curl -X POST "https://www.chenyu.team/api/open/v2/instance/startup" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json" \
   -d '{

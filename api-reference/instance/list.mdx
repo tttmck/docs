@@ -1,6 +1,6 @@
 ---
 title: "查询实例列表"
-api: "GET https://www.chenyu.team/api/open/v1/instance/list"
+api: "GET https://www.chenyu.team/api/open/v2/instance/list"
 description: "查询用户的实例列表"
 ---
 
@@ -123,7 +123,7 @@ description: "查询用户的实例列表"
 import requests
 from datetime import datetime
 
-url = "https://www.chenyu.team/api/open/v1/instance/list"
+url = "https://www.chenyu.team/api/open/v2/instance/list"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -162,7 +162,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/instance/list';
+const url = 'https://www.chenyu.team/api/open/v2/instance/list';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -208,7 +208,7 @@ axios.get(url, { headers, params })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v1/instance/list?page=1&page_size=10" \
+curl -X GET "https://www.chenyu.team/api/open/v2/instance/list?page=1&page_size=10" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json"
 ```

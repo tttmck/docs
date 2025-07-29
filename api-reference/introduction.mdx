@@ -13,7 +13,7 @@ icon: "code"
 ### API 基础URL
 
 ```
-https://www.chenyu.team/api/open/v1
+https://www.chenyu.team/api/open/v2
 ```
 
 ### 认证方式
@@ -78,28 +78,28 @@ graph LR
 ```
 
 主要接口：
-- `POST /api/open/v1/instance/create_by_pod` - 通过Pod创建实例
-- `POST /api/open/v1/instance/create_by_image` - 通过镜像创建实例
-- `GET /api/open/v1/instance/list` - 获取实例列表
-- `POST /api/open/v1/instance/startup` - 启动实例
-- `POST /api/open/v1/instance/shutdown` - 停止实例
-- `POST /api/open/v1/instance/restart` - 重启实例
+- `POST /api/open/v2/instance/create_by_pod` - 通过Pod创建实例
+- `POST /api/open/v2/instance/create_by_image` - 通过镜像创建实例
+- `GET /api/open/v2/instance/list` - 获取实例列表
+- `POST /api/open/v2/instance/startup` - 启动实例
+- `POST /api/open/v2/instance/shutdown` - 停止实例
+- `POST /api/open/v2/instance/restart` - 重启实例
 
 ### 💰 计费管理
 
 实时监控费用和管理预算：
 
-- `GET /api/open/v1/balance/info` - 查询账户余额
-- `GET /api/open/v1/bill/list` - 获取账单详情
-- `GET /api/open/v1/recharge/list` - 查询充值记录
+- `GET /api/open/v2/balance/info` - 查询账户余额
+- `GET /api/open/v2/bill/list` - 获取账单详情
+- `GET /api/open/v2/recharge/list` - 查询充值记录
 
 ### 📊 资源管理
 
 获取平台资源信息：
 
-- `GET /api/open/v1/pod/list` - 获取Pod列表
-- `GET /api/open/v1/gpu/list` - 获取GPU列表
-- `GET /api/open/v1/image/market_list` - 获取市场镜像列表
+- `GET /api/open/v2/pod/list` - 获取Pod列表
+- `GET /api/open/v2/gpu/list` - 获取GPU列表
+- `GET /api/open/v2/image/market_list` - 获取市场镜像列表
 
 ## 快速开始
 
@@ -132,7 +132,7 @@ go get github.com/chenyu-ai/sdk-go
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/balance/info"
+url = "https://www.chenyu.team/api/open/v2/balance/info"
 headers = {
     "Authorization": "Bearer YOUR_API_KEY",
     "Content-Type": "application/json"
@@ -144,7 +144,7 @@ balance = response.json()
 print(f"账户余额: {balance['data']['balance']} 元")
 
 # 创建实例
-create_url = "https://www.chenyu.team/api/open/v1/instance/create_by_pod"
+create_url = "https://www.chenyu.team/api/open/v2/instance/create_by_pod"
 data = {
     "pod_uuid": "pod_xxx",
     "gpu_uuid": "gpu_xxx",
@@ -164,12 +164,12 @@ const headers = {
 };
 
 // 获取账户信息
-const balanceUrl = 'https://www.chenyu.team/api/open/v1/balance/info';
+const balanceUrl = 'https://www.chenyu.team/api/open/v2/balance/info';
 const balanceResponse = await axios.get(balanceUrl, { headers });
 console.log(`账户余额: ${balanceResponse.data.data.balance} 元`);
 
 // 创建实例
-const createUrl = 'https://www.chenyu.team/api/open/v1/instance/create_by_pod';
+const createUrl = 'https://www.chenyu.team/api/open/v2/instance/create_by_pod';
 const data = {
     pod_uuid: 'pod_xxx',
     gpu_uuid: 'gpu_xxx',
@@ -194,7 +194,7 @@ func main() {
     apiKey := "YOUR_API_KEY"
     
     // 获取账户信息
-    balanceURL := "https://www.chenyu.team/api/open/v1/balance/info"
+    balanceURL := "https://www.chenyu.team/api/open/v2/balance/info"
     req, _ := http.NewRequest("GET", balanceURL, nil)
     req.Header.Set("Authorization", "Bearer "+apiKey)
     req.Header.Set("Content-Type", "application/json")
@@ -210,7 +210,7 @@ func main() {
     fmt.Printf("账户信息: %s\n", string(body))
     
     // 创建实例
-    createURL := "https://www.chenyu.team/api/open/v1/instance/create_by_pod"
+    createURL := "https://www.chenyu.team/api/open/v2/instance/create_by_pod"
     data := map[string]interface{}{
         "pod_uuid":   "pod_xxx",
         "gpu_uuid":   "gpu_xxx",

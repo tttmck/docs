@@ -1,6 +1,6 @@
 ---
 title: "查询应用市场Pod"
-api: "GET https://www.chenyu.team/api/open/v1/pod/list"
+api: "GET https://www.chenyu.team/api/open/v2/pod/list"
 description: "查询应用市场中可用的Pod列表"
 ---
 
@@ -97,7 +97,7 @@ description: "查询应用市场中可用的Pod列表"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/pod/list"
+url = "https://www.chenyu.team/api/open/v2/pod/list"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -123,7 +123,7 @@ for pod in result['data']['pod_list']:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/pod/list';
+const url = 'https://www.chenyu.team/api/open/v2/pod/list';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -153,7 +153,7 @@ axios.get(url, { headers, params })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v1/pod/list?page=1&page_size=10&name=pytorch" \
+curl -X GET "https://www.chenyu.team/api/open/v2/pod/list?page=1&page_size=10&name=pytorch" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json"
 ```

@@ -1,6 +1,6 @@
 ---
 title: "保存为镜像"
-api: "POST https://www.chenyu.team/api/open/v1/instance/save-image"
+api: "POST https://www.chenyu.team/api/open/v2/instance/save_image"
 description: "将实例保存为私有镜像"
 ---
 
@@ -31,7 +31,7 @@ description: "将实例保存为私有镜像"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v1/instance/save-image"
+url = "https://www.chenyu.team/api/open/v2/instance/save_image"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -55,7 +55,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v1/instance/save-image';
+const url = 'https://www.chenyu.team/api/open/v2/instance/save_image';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ axios.post(url, data, { headers })
 ```
 
 ```curl cURL
-curl -X POST "https://www.chenyu.team/api/open/v1/instance/save-image" \
+curl -X POST "https://www.chenyu.team/api/open/v2/instance/save_image" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json" \
   -d '{

@@ -7,7 +7,7 @@
   },
   "tags": [],
   "paths": {
-    "/api/open/v1/pod/list": {
+    "/api/open/v2/pod/list": {
       "get": {
         "summary": "查询应用市场Pod",
         "deprecated": false,
@@ -148,7 +148,7 @@
         "security": []
       }
     },
-    "/api/open/v1/image/market/list": {
+    "/api/open/v2/image/market/list": {
       "get": {
         "summary": "查询算力市场镜像",
         "deprecated": false,
@@ -220,7 +220,7 @@
         "security": []
       }
     },
-    "/api/open/v1/image/private/list": {
+    "/api/open/v2/image/private/list": {
       "get": {
         "summary": "查询个人镜像",
         "deprecated": false,
@@ -328,7 +328,7 @@
         "security": []
       }
     },
-    "/api/open/v1/image/private/delete": {
+    "/api/open/v2/image/private/delete": {
       "post": {
         "summary": "删除个人镜像",
         "deprecated": false,
@@ -384,7 +384,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/create_by_pod": {
+    "/api/open/v2/instance/create_by_pod": {
       "post": {
         "summary": "通过Pod创建实例",
         "deprecated": false,
@@ -555,7 +555,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/create_by_image": {
+    "/api/open/v2/instance/create_by_image": {
       "post": {
         "summary": "通过镜像创建实例 Copy",
         "deprecated": false,
@@ -721,7 +721,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/list": {
+    "/api/open/v2/instance/list": {
       "get": {
         "summary": "实例列表",
         "deprecated": false,
@@ -874,7 +874,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/startup": {
+    "/api/open/v2/instance/startup": {
       "post": {
         "summary": "实例开机",
         "deprecated": false,
@@ -940,7 +940,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/shutdown": {
+    "/api/open/v2/instance/shutdown": {
       "post": {
         "summary": "实例关机",
         "deprecated": false,
@@ -995,7 +995,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/restart": {
+    "/api/open/v2/instance/restart": {
       "post": {
         "summary": "实例重启",
         "deprecated": false,
@@ -1051,7 +1051,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/shutdown-timer": {
+    "/api/open/v2/instance/shutdown_timer": {
       "post": {
         "summary": "设置实例定时关机",
         "deprecated": false,
@@ -1117,7 +1117,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/destroy": {
+    "/api/open/v2/instance/destroy": {
       "post": {
         "summary": "实例销毁",
         "deprecated": false,
@@ -1173,7 +1173,7 @@
         "security": []
       }
     },
-    "/api/open/v1/instance/save-image": {
+    "/api/open/v2/instance/save_image": {
       "post": {
         "summary": "实例保存镜像",
         "deprecated": false,
@@ -1229,7 +1229,7 @@
         "security": []
       }
     },
-    "/api/open/v1/balance/info": {
+    "/api/open/v2/balance/info": {
       "get": {
         "summary": "余额查询",
         "deprecated": false,
@@ -1284,7 +1284,7 @@
         "security": []
       }
     },
-    "/api/open/v1/recharge/list": {
+    "/api/open/v2/recharge/list": {
       "get": {
         "summary": "充值记录",
         "deprecated": false,
@@ -1394,7 +1394,7 @@
         "security": []
       }
     },
-    "/api/open/v1/bill/list": {
+    "/api/open/v2/bill/list": {
       "get": {
         "summary": "消费流水查询",
         "deprecated": false,
@@ -1528,7 +1528,7 @@
         "security": []
       }
     },
-    "/api/open/v1/card/list": {
+    "/api/open/v2/card/list": {
       "get": {
         "summary": "算力卡查询",
         "deprecated": false,
@@ -1682,7 +1682,7 @@
         "security": []
       }
     },
-    "/api/open/v1/gpu/list": {
+    "/api/open/v2/gpu/list": {
       "get": {
         "summary": "获取平台gpu列表",
         "deprecated": false,
