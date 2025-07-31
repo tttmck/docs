@@ -14,13 +14,13 @@ icon: "rocket"
 
 <Steps>
   <Step title="注册账户">
-    访问 [晨羽智云官网](https://www.chenyu.com) 注册企业账户
+    访问 [晨羽智云官网](https://www.chenyu.cn) 注册账户
   </Step>
   <Step title="获取API Key">
-    登录控制台，在"API管理"页面生成您的API密钥
+    访问控制台，在"API Key"页面创建您的API密钥
   </Step>
   <Step title="账户充值">
-    为您的账户充值至少100元，确保有足够余额创建实例
+    为您的账户充值，确保有足够余额创建实例
   </Step>
 </Steps>
 
@@ -31,8 +31,7 @@ icon: "rocket"
 首先，我们需要查看当前可用的Pod资源：
 
 ```bash
-curl -X GET "https://www.chenyu.team/api/open/v2/pod/list" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "https://www.chenyu.team/api/open/v2/pod/list"
 ```
 
 ### 1.2 选择GPU型号
