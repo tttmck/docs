@@ -14,12 +14,12 @@ description: "启动指定的实例"
   实例uuid
 </ParamField>
 
-<ParamField body="gpu_uuid" type="string" required>
-  gpu型号id
+<ParamField body="gpu_uuid" type="string">
+  gpu型号id，默认使用创建时的gpu型号
 </ParamField>
 
-<ParamField body="gpu_nums" type="integer" required>
-  gpu数量，支持1/2/4/8
+<ParamField body="gpu_nums" type="integer">
+  gpu数量，支持1/2/4/8，默认使用创建时的gpu数量
 </ParamField>
 
 ## 响应参数

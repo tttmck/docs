@@ -8,10 +8,14 @@ description: "为实例设置定时关机"
 
 为指定实例设置定时关机功能，可以在指定时间后自动关闭实例。
 
+<Warning>
+实例定时关机时间最小为5分钟后。
+</Warning>
+
 ## 请求参数
 
 <ParamField body="enable" type="boolean" required>
-  true: 启用实例定时关机 false:关闭实例定时关机
+  true: 启用实例定时关机 false: 取消实例定时关机
 </ParamField>
 
 <ParamField body="shutdown_time" type="integer" required>

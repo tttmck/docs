@@ -8,6 +8,10 @@ description: "将实例保存为私有镜像"
 
 将指定实例的当前状态保存为私有镜像，便于后续创建相同配置的实例。
 
+<Warning>
+仅在实例运行时可以保存镜像，保存镜像后，实例将会自动关机。
+</Warning>
+
 ## 请求参数
 
 <ParamField body="instance_uuid" type="string" required>

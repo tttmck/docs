@@ -18,10 +18,10 @@ description: "查询账户消费流水记录"
   每页数量
 </ParamField>
 
-<ParamField query="order_channel" type="integer" optional>
-  扣费渠道
-  1.余额消费
-  2.算力卡消费
+<ParamField query="charge_channel" type="integer" optional>
+  扣费类型
+  - `1`: 余额消费
+  - `2`: 算力卡消费
 </ParamField>
 
 <ParamField query="order_number" type="string" optional>
@@ -51,7 +51,9 @@ description: "查询账户消费流水记录"
         </ResponseField>
 
         <ResponseField name="charge_channel" type="integer">
-          扣费渠道 1.余额 2.算力卡
+          扣费类型
+          - `1`: 余额消费
+          -  `2`: 算力卡消费
         </ResponseField>
 
         <ResponseField name="order_number" type="string">
@@ -97,7 +99,7 @@ headers = {
 params = {
     "page": "1",
     "page_size": "10",
-    "order_channel": 1,  # 可选，1.余额消费 2.算力卡消费
+    "charge_channel": 1,  # 可选，1.余额消费 2.算力卡消费
     "order_number": "ORD123456789"  # 可选，按订单编号筛选
 }
 
@@ -130,7 +132,7 @@ const headers = {
 const params = {
     page: "1",
     page_size: "10",
-    order_channel: 1,  // 可选，1.余额消费 2.算力卡消费
+    charge_channel: 1,  // 可选，1.余额消费 2.算力卡消费
     order_number: "ORD123456789"  // 可选，按订单编号筛选
 };
 
@@ -160,7 +162,7 @@ axios.get(url, { headers, params })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v2/bill/list?page=1&page_size=10&order_channel=1&order_number=ORD123456789" \
+curl -X GET "https://www.chenyu.team/api/open/v2/bill/list?page=1&page_size=10&charge_channel=1&order_number=ORD123456789" \
   -H "Authorization: Bearer your_api_key"
 ```
 

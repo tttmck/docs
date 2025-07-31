@@ -1,13 +1,14 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "晨羽智云企业功能文档",
+  "name": "晨羽智云开放接口文档",
 
   "favicon": "/favicon.svg",
   "stylesheets": [
     "/custom.css"
   ],
   "scripts": [
-    "/fix-code-theme.js"
+    "/fix-code-theme.js",
+    "/support-modal.js"
   ],
   "colors": {
     "primary": "#7C3AED",
@@ -120,7 +121,6 @@
     }
   ],
   "footerSocials": {
-    "github": "https://github.com/chenyu-ai",
-    "linkedin": "https://www.linkedin.com/company/chenyu-ai"
+    "website": "https://www.chenyu.cn"
   }
 }

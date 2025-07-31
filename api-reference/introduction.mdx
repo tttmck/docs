@@ -1,12 +1,8 @@
 ---
 title: "API 参考"
-description: "晨羽智云完整的API接口文档"
+description: "晨羽智云开放API接口文档"
 icon: "code"
 ---
-
-# API 参考
-
-欢迎使用晨羽智云API！我们提供完整的RESTful API接口，帮助您通过编程方式管理GPU实例、监控资源使用和控制成本。
 
 ## 基础信息
 
@@ -18,7 +14,7 @@ https://www.chenyu.team/api/open/v2
 
 ### 认证方式
 
-所有API请求都需要在HTTP头中包含认证信息：
+部分API请求都需要在HTTP头中包含认证信息：
 
 ```http
 Authorization: Bearer YOUR_API_KEY
@@ -28,7 +24,7 @@ Authorization: Bearer YOUR_API_KEY
 
 - **Content-Type**: `application/json`
 - **字符编码**: UTF-8
-- **请求方法**: GET、POST、PUT、DELETE
+- **请求方法**: GET、POST
 
 ### 响应格式
 
@@ -50,7 +46,7 @@ Authorization: Bearer YOUR_API_KEY
   <Card title="实例管理" icon="server" href="/api-reference/instance/list">
     创建、启动、停止、重启GPU实例，管理实例生命周期
   </Card>
-  <Card title="账户管理" icon="user-circle" href="/api-reference/balance/info">
+  <Card title="账户信息" icon="wallet" href="/api-reference/balance/info">
     查询余额、充值记录、账单明细等账户信息
   </Card>
   <Card title="资源查询" icon="cube" href="/api-reference/gpu/list">
@@ -63,7 +59,7 @@ Authorization: Bearer YOUR_API_KEY
 
 ## 核心功能
 
-### 🚀 实例管理
+### 实例管理
 
 管理GPU实例的完整生命周期：
 
@@ -72,7 +68,7 @@ graph LR
     A[创建实例] --> B[启动实例]
     B --> C[运行中]
     C --> D[停止实例]
-    D --> E[重启实例]
+    D --> E[启动实例]
     E --> C
     C --> F[销毁实例]
 ```
@@ -82,10 +78,10 @@ graph LR
 - `POST /api/open/v2/instance/create_by_image` - 通过镜像创建实例
 - `GET /api/open/v2/instance/list` - 获取实例列表
 - `POST /api/open/v2/instance/startup` - 启动实例
-- `POST /api/open/v2/instance/shutdown` - 停止实例
+- `POST /api/open/v2/instance/shutdown_timer` - 停止实例
 - `POST /api/open/v2/instance/restart` - 重启实例
 
-### 💰 计费管理
+### 计费管理
 
 实时监控费用和管理预算：
 
@@ -93,7 +89,7 @@ graph LR
 - `GET /api/open/v2/bill/list` - 获取账单详情
 - `GET /api/open/v2/recharge/list` - 查询充值记录
 
-### 📊 资源管理
+### 资源管理
 
 获取平台资源信息：
 
@@ -107,25 +103,8 @@ graph LR
 
 登录 [晨羽智云控制台](https://www.chenyu.cn/console/apiServer)，在"API管理"页面创建新的API密钥。
 
-### 2. 安装SDK
 
-<CodeGroup>
-
-```bash Python
-pip install chenyu-sdk
-```
-
-```bash Node.js
-npm install @chenyu/sdk
-```
-
-```bash Go
-go get github.com/chenyu-ai/sdk-go
-```
-
-</CodeGroup>
-
-### 3. 初始化客户端
+### 2. 初始化客户端
 
 <CodeGroup>
 
@@ -249,36 +228,6 @@ func main() {
 | 429 | Too Many Requests | 请求过于频繁 |
 | 500 | Internal Server Error | 服务器内部错误 |
 
-### 业务状态码
-
-| 业务码 | 描述 | 解决方案 |
-|--------|------|----------|
-| 200 | 操作成功 | - |
-| 400 | 请求参数错误 | 检查请求参数格式和必填项 |
-| 401 | API Key无效 | 检查API Key是否正确 |
-| 402 | 账户余额不足 | 请充值账户余额 |
-| 403 | 权限不足 | 检查API Key权限设置 |
-| 404 | 资源不存在 | 确认资源ID是否正确 |
-| 429 | 请求频率超限 | 降低请求频率 |
-| 503 | 资源不可用 | 稍后重试或选择其他资源 |
-
-## 限流规则
-
-为了保证服务稳定性，我们对API请求实施了限流措施：
-
-<Tabs>
-  <Tab title="标准限流">
-    - **请求频率**: 每秒最多10个请求
-    - **并发限制**: 最多5个并发请求
-    - **超限处理**: 返回429状态码
-  </Tab>
-  <Tab title="企业客户">
-    - **请求频率**: 每秒最多100个请求
-    - **并发限制**: 最多20个并发请求
-    - **专属支持**: 可申请提高限额
-  </Tab>
-</Tabs>
-
 ## 错误处理
 
 ### 错误响应格式
@@ -295,9 +244,6 @@ func main() {
 }
 ```
 
-### 重试策略
-
-建议采用指数退避策略处理临时性错误：
 
 ```python
 import time
@@ -316,42 +262,15 @@ def retry_with_backoff(func, max_retries=3):
             time.sleep(delay)
 ```
 
-## 版本控制
-
 ### 当前版本
 
 - **API版本**: v2
-- **发布日期**: 2024-01-01
-- **更新频率**: 每月更新
+- **发布日期**: 2025-08-01
 
-### 版本兼容性
-
-- **向后兼容**: 确保已发布的API在新版本中保持兼容
-- **废弃通知**: 废弃的API将提前3个月通知
-- **版本标记**: 通过URL路径标识版本（如`/api/open/v2/`）
-
-## 最佳实践
-
-### 🔐 安全建议
+### 安全建议
 
 - **API Key管理**: 将API Key存储在环境变量中，不要硬编码
-- **HTTPS通信**: 始终使用HTTPS协议进行API调用
-- **权限控制**: 为不同用途创建不同权限的API Key
 - **定期轮换**: 定期更新API Key以提高安全性
-
-### 🚀 性能优化
-
-- **请求合并**: 尽量合并多个相关请求
-- **缓存机制**: 对不常变化的数据进行适当缓存
-- **并发控制**: 控制并发请求数量，避免触发限流
-- **错误处理**: 实现完善的错误处理和重试机制
-
-### 📊 监控建议
-
-- **请求日志**: 记录所有API请求和响应
-- **性能监控**: 监控API调用延迟和成功率
-- **告警设置**: 设置异常情况的告警机制
-- **使用分析**: 定期分析API使用模式和优化点
 
 ## 获取帮助
 
@@ -359,19 +278,35 @@ def retry_with_backoff(func, max_retries=3):
   <Card title="API文档" icon="book" href="/api-reference/instances">
     查看详细的API接口文档和示例
   </Card>
-  <Card title="SDK文档" icon="code" href="/sdk">
-    查看各语言SDK的使用指南
-  </Card>
   <Card title="常见问题" icon="question" href="/faq">
     查看API使用的常见问题和解决方案
   </Card>
-  <Card title="技术支持" icon="headset" href="mailto:support@chenyu.com">
-    联系技术支持获取专业帮助
+  <Card title="联系支持" icon="headset" href="#" onClick="showSupportModal()">
+      遇到问题？我们的技术团队随时为您提供帮助
   </Card>
 </CardGroup>
 
 ---
 
-<Info>
-  **开发者友好** - 我们致力于提供简单易用的API接口。如果您在使用过程中有任何建议或问题，请随时联系我们的技术团队。
-</Info>
+{/* 联系支持弹框 */}
+<div id="support-modal" className="support-modal">
+  <div className="modal-content">
+    <button className="close-button" type="button">
+      <span className="close-icon">×</span>
+    </button>
+    <div className="modal-header">
+      <h3 className="modal-title">联系技术支持</h3>
+      <p className="modal-subtitle">扫描下方二维码获取专业技术支持</p>
+    </div>
+    <div className="qr-code-container">
+      <img
+        src="https://img.cyuai.com/cpn/material/83ab67cf9a7940e3bea37b28d8fa07ed.png?2025073018"
+        alt="联系支持二维码"
+        className="qr-code-image"
+      />
+    </div>
+    <div className="modal-footer">
+      <p>我们的技术团队将为您提供技术支持服务</p>
+    </div>
+  </div>
+</div>

@@ -112,8 +112,8 @@ check_service_status() {
         docker-compose ps
         echo ""
         print_success "🎉 部署成功！"
-        print_info "📖 访问地址：http://localhost:3000"
-        print_info "📱 移动端访问：http://你的服务器IP:3000"
+        print_info "访问地址：http://localhost:3000"
+        print_info "移动端访问：http://你的服务器IP:3000"
         echo ""
         print_info "服务管理命令："
         echo "  查看日志: docker-compose logs -f docs"
@@ -131,7 +131,7 @@ check_service_status() {
 # 主函数
 main() {
     echo ""
-    print_info "🚀 开始部署晨羽智云API文档..."
+    print_info "开始部署晨羽智云API文档..."
     echo ""
     
     # 检查环境
@@ -154,11 +154,11 @@ main() {
     
     if [ $? -eq 0 ]; then
         echo ""
-        print_success "🎊 部署完成！"
+        print_success "部署完成！"
         exit 0
     else
         echo ""
-        print_error "💥 部署失败！"
+        print_error "部署失败！"
         exit 1
     fi
 }
