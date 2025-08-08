@@ -54,7 +54,7 @@ Authorization: Bearer YOUR_API_KEY
 <CodeGroup>
 
 ```bash cURL
-curl -X GET "https://www.chenyu.team/api/open/v2/balance/info" \
+curl -X GET "https://www.chenyu.cn/api/open/v2/balance/info" \
   -H "Authorization: Bearer cy_1234567890abcdef1234567890abcdef" \
   -H "Content-Type: application/json"
 ```
@@ -67,7 +67,7 @@ headers = {
     "Content-Type": "application/json"
 }
 
-response = requests.get("https://www.chenyu.team/api/open/v2/balance/info", headers=headers)
+response = requests.get("https://www.chenyu.cn/api/open/v2/balance/info", headers=headers)
 print(response.json())
 ```
 
@@ -79,7 +79,7 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-axios.get('https://www.chenyu.team/api/open/v2/balance/info', { headers })
+axios.get('https://www.chenyu.cn/api/open/v2/balance/info', { headers })
     .then(response => console.log(response.data))
     .catch(error => console.error(error));
 ```
@@ -94,7 +94,7 @@ import (
 )
 
 func main() {
-    req, _ := http.NewRequest("GET", "https://www.chenyu.team/api/open/v2/balance/info", nil)
+    req, _ := http.NewRequest("GET", "https://www.chenyu.cn/api/open/v2/balance/info", nil)
     req.Header.Set("Authorization", "Bearer cy_1234567890abcdef1234567890abcdef")
     req.Header.Set("Content-Type", "application/json")
 
@@ -260,7 +260,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 CHENYU_API_KEY = os.getenv('CHENYU_API_KEY_DEV')
-CHENYU_BASE_URL = 'https://www.chenyu.team/api/open/v2'
+CHENYU_BASE_URL = 'https://www.chenyu.cn/api/open/v2'
 ```
 
 ### 生产环境
@@ -271,7 +271,7 @@ import os
 
 # 从环境变量或密钥管理系统获取
 CHENYU_API_KEY = os.getenv('CHENYU_API_KEY_PROD')
-CHENYU_BASE_URL = 'https://www.chenyu.team/api/open/v2'
+CHENYU_BASE_URL = 'https://www.chenyu.cn/api/open/v2'
 
 # 生产环境额外配置
 TIMEOUT = 30
@@ -284,7 +284,7 @@ MAX_RETRIES = 3
 
 ```bash
 # 测试API Key是否有效
-curl -X GET "https://www.chenyu.team/api/open/v2/balance/info" \
+curl -X GET "https://www.chenyu.cn/api/open/v2/balance/info" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json"
 ```

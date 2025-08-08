@@ -9,7 +9,7 @@ icon: "code"
 ### API 基础URL
 
 ```
-https://www.chenyu.team/api/open/v2
+https://www.chenyu.cn/api/open/v2
 ```
 
 ### 认证方式
@@ -111,7 +111,7 @@ graph LR
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v2/balance/info"
+url = "https://www.chenyu.cn/api/open/v2/balance/info"
 headers = {
     "Authorization": "Bearer YOUR_API_KEY",
     "Content-Type": "application/json"
@@ -123,7 +123,7 @@ balance = response.json()
 print(f"账户余额: {balance['data']['balance']} 元")
 
 # 创建实例
-create_url = "https://www.chenyu.team/api/open/v2/instance/create_by_pod"
+create_url = "https://www.chenyu.cn/api/open/v2/instance/create_by_pod"
 data = {
     "pod_uuid": "pod_xxx",
     "gpu_uuid": "gpu_xxx",
@@ -143,12 +143,12 @@ const headers = {
 };
 
 // 获取账户信息
-const balanceUrl = 'https://www.chenyu.team/api/open/v2/balance/info';
+const balanceUrl = 'https://www.chenyu.cn/api/open/v2/balance/info';
 const balanceResponse = await axios.get(balanceUrl, { headers });
 console.log(`账户余额: ${balanceResponse.data.data.balance} 元`);
 
 // 创建实例
-const createUrl = 'https://www.chenyu.team/api/open/v2/instance/create_by_pod';
+const createUrl = 'https://www.chenyu.cn/api/open/v2/instance/create_by_pod';
 const data = {
     pod_uuid: 'pod_xxx',
     gpu_uuid: 'gpu_xxx',
@@ -173,7 +173,7 @@ func main() {
     apiKey := "YOUR_API_KEY"
     
     // 获取账户信息
-    balanceURL := "https://www.chenyu.team/api/open/v2/balance/info"
+    balanceURL := "https://www.chenyu.cn/api/open/v2/balance/info"
     req, _ := http.NewRequest("GET", balanceURL, nil)
     req.Header.Set("Authorization", "Bearer "+apiKey)
     req.Header.Set("Content-Type", "application/json")
@@ -189,7 +189,7 @@ func main() {
     fmt.Printf("账户信息: %s\n", string(body))
     
     // 创建实例
-    createURL := "https://www.chenyu.team/api/open/v2/instance/create_by_pod"
+    createURL := "https://www.chenyu.cn/api/open/v2/instance/create_by_pod"
     data := map[string]interface{}{
         "pod_uuid":   "pod_xxx",
         "gpu_uuid":   "gpu_xxx",

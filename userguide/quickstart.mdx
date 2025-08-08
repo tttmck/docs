@@ -31,7 +31,7 @@ icon: "rocket"
 首先，我们需要查看当前可用的Pod资源：
 
 ```bash
-curl -X GET "https://www.chenyu.team/api/open/v2/pod/list"
+curl -X GET "https://www.chenyu.cn/api/open/v2/pod/list"
 ```
 
 ### 1.2 选择GPU型号
@@ -39,7 +39,7 @@ curl -X GET "https://www.chenyu.team/api/open/v2/pod/list"
 查看平台支持的GPU型号：
 
 ```bash
-curl -X GET "https://www.chenyu.team/api/open/v2/gpu/list" \
+curl -X GET "https://www.chenyu.cn/api/open/v2/gpu/list" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -50,7 +50,7 @@ curl -X GET "https://www.chenyu.team/api/open/v2/gpu/list" \
 <CodeGroup>
 
 ```bash cURL
-curl -X POST "https://www.chenyu.team/api/open/v2/instance/create_by_pod" \
+curl -X POST "https://www.chenyu.cn/api/open/v2/instance/create_by_pod" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -64,7 +64,7 @@ curl -X POST "https://www.chenyu.team/api/open/v2/instance/create_by_pod" \
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v2/instance/create_by_pod"
+url = "https://www.chenyu.cn/api/open/v2/instance/create_by_pod"
 headers = {
     "Authorization": "Bearer YOUR_API_KEY",
     "Content-Type": "application/json"
@@ -92,7 +92,7 @@ else:
 创建实例后，监控其启动状态：
 
 ```bash
-curl -X GET "https://www.chenyu.team/api/open/v2/instance/list" \
+curl -X GET "https://www.chenyu.cn/api/open/v2/instance/list" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -112,7 +112,7 @@ import json
 class ChenyuClient:
     def __init__(self, api_key):
         self.api_key = api_key
-        self.base_url = "https://www.chenyu.team/api/open/v2"
+        self.base_url = "https://www.chenyu.cn/api/open/v2"
         self.headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"

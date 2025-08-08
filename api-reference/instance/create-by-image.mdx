@@ -1,6 +1,6 @@
 ---
 title: "通过镜像创建实例"
-api: "POST https://www.chenyu.team/api/open/v2/instance/create_by_image"
+api: "POST https://www.chenyu.cn/api/open/v2/instance/create_by_image"
 description: "使用指定的镜像创建GPU实例"
 ---
 
@@ -119,7 +119,7 @@ description: "使用指定的镜像创建GPU实例"
 import requests
 from datetime import datetime
 
-url = "https://www.chenyu.team/api/open/v2/instance/create_by_image"
+url = "https://www.chenyu.cn/api/open/v2/instance/create_by_image"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -157,7 +157,7 @@ else:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v2/instance/create_by_image';
+const url = 'https://www.chenyu.cn/api/open/v2/instance/create_by_image';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -201,7 +201,7 @@ axios.post(url, data, { headers })
 ```
 
 ```curl cURL
-curl -X POST "https://www.chenyu.team/api/open/v2/instance/create_by_image" \
+curl -X POST "https://www.chenyu.cn/api/open/v2/instance/create_by_image" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -226,8 +226,8 @@ curl -X POST "https://www.chenyu.team/api/open/v2/instance/create_by_image" \
     "create_time": 1703145600,
     "start_time": 1703145660,
     "server_url": [
-      "https://jupyter-inst456.chenyu.team",
-      "https://ssh-inst456.chenyu.team"
+      "https://jupyter-inst456.chenyu.cn",
+      "https://ssh-inst456.chenyu.cn"
     ],
     "save_image_status": 2,
     "charging_type": 1,

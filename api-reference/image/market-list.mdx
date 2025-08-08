@@ -1,6 +1,6 @@
 ---
 title: "查询算力市场镜像"
-api: "GET https://www.chenyu.team/api/open/v2/image/market/list"
+api: "GET https://www.chenyu.cn/api/open/v2/image/market/list"
 description: "查询算力市场中可用的镜像列表"
 authMethod: "none"
 ---
@@ -118,7 +118,7 @@ authMethod: "none"
 ```python Python
 import requests
 
-url = "https://www.chenyu.team/api/open/v2/image/market/list"
+url = "https://www.chenyu.cn/api/open/v2/image/market/list"
 headers = {
     "Authorization": "Bearer your_api_key",
     "Content-Type": "application/json"
@@ -149,7 +149,7 @@ for image in result['data']['image_list']:
 ```javascript JavaScript
 const axios = require('axios');
 
-const url = 'https://www.chenyu.team/api/open/v2/image/market/list';
+const url = 'https://www.chenyu.cn/api/open/v2/image/market/list';
 const headers = {
     'Authorization': 'Bearer your_api_key',
     'Content-Type': 'application/json'
@@ -184,7 +184,7 @@ axios.get(url, { headers, params })
 ```
 
 ```curl cURL
-curl -X GET "https://www.chenyu.team/api/open/v2/image/market/list?page=1&page_size=20&cuda_version=11.8&python_version=3.9" \
+curl -X GET "https://www.chenyu.cn/api/open/v2/image/market/list?page=1&page_size=20&cuda_version=11.8&python_version=3.9" \
   -H "Authorization: Bearer your_api_key" \
   -H "Content-Type: application/json"
 ```
