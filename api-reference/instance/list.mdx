@@ -63,7 +63,55 @@ authMethod: "bearer"
         <ResponseField name="server_url" type="array">
           开放服务url列表
         </ResponseField>
-        
+
+        <ResponseField name="server_map" type="array">
+          服务映射列表，包含详细的服务信息
+
+          <Expandable title="server_map">
+            <ResponseField name="title" type="string">
+              服务标题
+            </ResponseField>
+
+            <ResponseField name="url" type="string">
+              服务访问地址
+            </ResponseField>
+
+            <ResponseField name="port_type" type="string">
+              端口类型
+              - `http`: http
+              - `ssh`: ssh
+            </ResponseField>
+
+            <ResponseField name="protocol" type="string">
+              协议
+              - `tcp`
+              - `udp`
+            </ResponseField>
+
+            <ResponseField name="ssh_info" type="object">
+              SSH连接信息（当port_type为ssh时提供）
+
+              <Expandable title="ssh_info">
+                <ResponseField name="host" type="string">
+                  主机地址
+                </ResponseField>
+
+                <ResponseField name="port" type="integer">
+                  端口
+                </ResponseField>
+
+                <ResponseField name="username" type="string">
+                  SSH用户名
+                </ResponseField>
+
+                <ResponseField name="password" type="string">
+                  SSH密码
+                </ResponseField>
+              </Expandable>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+
         <ResponseField name="save_image_status" type="integer">
           实例镜像保存状态
           - `1`: 上传中
@@ -160,6 +208,14 @@ if result['code'] == 0:
             print("服务地址:")
             for url in instance['server_url']:
                 print(f"  - {url}")
+
+        if instance.get('server_map'):
+            print("服务详情:")
+            for service in instance['server_map']:
+                print(f"  - {service['title']}: {service['url']}")
+                if service.get('ssh_info'):
+                    ssh = service['ssh_info']
+                    print(f"    SSH连接: {ssh['username']}@{ssh['host']}:{ssh['port']}")
         print("---")
 else:
     print(f"查询失败: {result['msg']}")
@@ -202,6 +258,17 @@ axios.get(url, { headers, params })
                         console.log(`  - ${url}`);
                     });
                 }
+
+                if (instance.server_map && instance.server_map.length > 0) {
+                    console.log('服务详情:');
+                    instance.server_map.forEach(service => {
+                        console.log(`  - ${service.title}: ${service.url}`);
+                        if (service.ssh_info) {
+                            const ssh = service.ssh_info;
+                            console.log(`    SSH连接: ${ssh.username}@${ssh.host}:${ssh.port}`);
+                        }
+                    });
+                }
                 console.log('---');
             });
         } else {
@@ -238,6 +305,26 @@ curl -X GET "https://www.chenyu.cn/api/open/v2/instance/list?page=1&page_size=10
         "server_url": [
           "https://jupyter-inst123.chenyu.cn",
           "https://ssh-inst123.chenyu.cn"
+        ],
+        "server_map": [
+          {
+            "title": "Jupyter Lab",
+            "url": "https://jupyter-inst123.chenyu.cn",
+            "port_type": "http",
+            "protocol": "tcp"
+          },
+          {
+            "title": "SSH Terminal",
+            "url": "ssh://ssh-inst123.chenyu.cn:22",
+            "port_type": "ssh",
+            "protocol": "tcp",
+            "ssh_info": {
+              "host": "inst12345678123412341234123456789012.gzxx.chenyu.cn",
+              "port": 22001,
+              "username": "root",
+              "password": "generated_password_123"
+            }
+          }
         ],
         "save_image_status": 2,
         "charging_type": 1,
